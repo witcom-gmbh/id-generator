@@ -1,0 +1,120 @@
+const generator = require('../GeneratorService');
+
+/**
+ * @swagger
+ * definitions:
+ *   ISIdRequest:
+ *     type: object
+ *     properties:
+ *       serviceOwner:
+ *         type: string
+ *       serviceType:
+ *         type: string
+ *       md:
+ *         type: string
+ *       count:
+ *         type: integer
+ *       required:
+ *         - serviceOwner
+ *         - serviceType
+ *         - md
+ */
+
+/**
+ * @swagger
+ * definitions:
+ *   IdResponse:
+ *     type: object
+ *     properties:
+ *       successful:
+ *         type: boolean
+ *       serviceIds:
+ *         type: array
+ *         items:
+ *           type: string
+ */
+
+/**
+ * @swagger
+ * /api/v1/is-service:
+ *   post:
+ *     tags:
+ *       - Generator
+ *     name: Generate Infrastructure Service-IDs
+ *     summary: Generates Infrastrukture Service-IDs for a specified service-type
+ *     security:
+ *       - bearerAuth: []
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         schema:
+ *           $ref: '#/definitions/ISIdRequest'
+ *           type: object
+ *           properties:
+ *             serviceOwner:
+ *               type: string
+ *             serviceType:
+ *               type: string
+ *             md:
+ *               type: string
+ *             count:
+ *               type: integer
+ *         required:
+ *           - serviceOwner
+ *           - serviceType
+ *           - md
+ *     responses:
+ *       '200':
+ *         description: User info updated
+ *         schema:
+ *           $ref: '#/definitions/IdResponse'
+ *       '400':
+ *         description: Service-ID could not be created
+ */
+
+module.exports = (app) => {
+    
+    app.post('/api/v1/is-service',(req,res,next) => {
+        
+        if (!req.body){
+           res.
+           status(400).
+           json({errMsg:"Request body is empty"}); 
+           return;
+        }
+        
+        let obj = req.body;
+        
+        if (!obj.serviceOwner){
+            res.status(400).json({errMsg:"Request has no serviceOwner"}); 
+            return;
+        }
+        if (!obj.serviceType){
+            res.status(400).json({errMsg:"Request has no serviceType"}); 
+            return;
+        }
+        
+        if (!obj.md){
+            res.status(400).json({errMsg:"Request has no managementDomain"}); 
+            return;
+        }
+        if(!obj.count){
+            obj.count=1;
+        }
+
+        generator.generate(obj).then(function(values) {
+            res.json(values);
+        })
+        .catch((err)=>{
+            console.log(err);
+            res.
+            status(400).
+            json(err);
+        });
+    });
+
+};
