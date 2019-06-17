@@ -15,6 +15,7 @@ class GeneratorService {
             logger: console
         });
         this.initialized=false;
+        this.seqStore = idStore;
         this.myGenerator = new SequentialGenerator();
         this.myGenerator.useLogger(console);
         this.myGenerator.useStore(idStore);
@@ -31,6 +32,61 @@ class GeneratorService {
             
         });
         
+    }
+
+    getSequenceVal(sequenceKey){
+        
+        if (!this.initialized){
+            console.error("Sequence-Generator has not been initialized");
+            return Promise.reject({successful: false,errMsg:'Generator has not been initialized'});
+        }
+        
+        //console.info(this.myGenerator.registry);
+        let state = {key:sequenceKey};
+        var so = this.myGenerator.registry[sequenceKey];
+        if (!so){
+            return Promise.reject({'successful':false,"errmsg":'Process ' + process.pid + ': Sequence [' + sequenceKey + '] is not registered'});
+        }
+        return this.seqStore.getval(state).then(function(res) {
+            return res;
+        })
+        .catch((error) => {
+            return Promise.reject({'successful':false,"errmsg":"Failed to get next-seq value"});
+        });
+    }
+
+    
+    setSequenceVal(request){
+        
+        if (!this.initialized){
+            console.error("Sequence-Generator has not been initialized");
+            return Promise.reject({successful: false,errMsg:'Generator has not been initialized'});
+        }
+        
+        if (!Number.isInteger(request.newVal)){
+            return Promise.reject({successful: false,errMsg:'Request newVal ' + request.newVal + ' is not a number'});
+        }
+        if (request.newVal<=0){
+            return Promise.reject({successful: false,errMsg:'Request newVal ' + request.newVal + ' is not a positive number'});
+        }
+        
+        return this.getSequenceVal(request.sequenceKey).
+        then((res) => {
+            let oldvalue = res.value;
+            if (request.newVal < oldvalue){
+                console.error("New value is smaller than current sequence-value");
+                return Promise.reject({'successful':false,"errmsg":"New value is smaller than current sequence-value"});
+            }
+            
+            return this.myGenerator.setSequenceValue(request.sequenceKey,request.newVal).then(function(res) {
+                return {'successful':true,"val":res.val};
+            })
+            .catch((error) => {
+                return Promise.reject({'successful':false,"errmsg":error.errmsg});
+            });
+        });
+        
+                
     }
     
     generate(request){
@@ -75,14 +131,11 @@ class GeneratorService {
             prefix=prefix.replace('##MD##',request.md);
         }
         
-        //let prefix = obj.serviceOwner + '-4' + obj.md;
         return this.myGenerator.generate(serviceType.sequenceKey,request.count).then(function(res) {
             let serviceIdList=[];
             
             for (let seq of res.seqList) {
-                prefix=prefix.replace('##SEQ##',seq);
-                serviceIdList.push(prefix);
-                //console.info(serviceId);
+                serviceIdList.push(prefix.replace('##SEQ##',seq));
             }
             return {'successful':true,"serviceIds":serviceIdList};
         });

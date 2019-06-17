@@ -53,6 +53,18 @@ sg.prototype.generate = function(key,requestSize=1){
     }
 };
 
+sg.prototype.setSequenceValue = function(key,newVal){
+    var so = this.registry[key];
+    
+    if(so){
+        return so.setval(newVal);
+    }
+    else{
+        return Promise.reject({'successful':false,"errmsg":'Process ' + process.pid + ': Sequence [' + key + '] is not registered'});
+        //throw new Error('Process ' + process.pid + ': Sequence [' + key + '] is not registered');
+    }
+};
+
 
 sg.prototype.init = function(callback){
     

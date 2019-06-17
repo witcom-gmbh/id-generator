@@ -6,18 +6,20 @@ var seqConfig = require('../../config/generatorconfig');
  * @swagger
  * definitions:
  *   serviceTypeResponse:
- *     type: object
- *     properties:
- *       name:
- *         type: string
- *       id:
- *         type: string
- *       sequenceKey:
- *         type: string* 
- *       type:
- *         type: string
- *       prefixTemplate:
- *         type: string
+ *     type: array
+ *     items:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         id:
+ *           type: string
+ *         sequenceKey:
+ *           type: string* 
+ *         type:
+ *           type: string
+ *         prefixTemplate:
+ *           type: string
  * 
  */
 
@@ -25,12 +27,14 @@ var seqConfig = require('../../config/generatorconfig');
  * @swagger
  * definitions:
  *   serviceOwnerResponse:
- *     type: object
- *     properties:
- *       name:
- *         type: string
- *       id:
- *         type: string
+ *     type: array
+ *     items:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         id:
+ *           type: string
  * 
  */
 
@@ -38,12 +42,14 @@ var seqConfig = require('../../config/generatorconfig');
  * @swagger
  * definitions:
  *   managementDomainResponse:
- *     type: object
- *     properties:
- *       name:
- *         type: string
- *       id:
- *         type: string
+ *     type: array
+ *     items:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         id:
+ *           type: string
  * 
  */
 

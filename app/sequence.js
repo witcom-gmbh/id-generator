@@ -30,6 +30,20 @@ so.build = function(o){
     return new so(o);
 };
 
+so.prototype.setval = function(newVal){
+    
+    return this.store.setval(this.state, newVal)
+    .then((res) => {
+        if(res.successful){
+            return {successful: true,val:res.value};
+        } else {
+            return Promise.reject({successful: false});
+        }
+    }
+    );
+}
+
+
 so.prototype.next = function(requestSize){
     var state = this.state;
     return this.store.increment(this.state,requestSize)
