@@ -1,5 +1,5 @@
 var seqConfig = require('../../config/generatorconfig');
-
+var keycloak   = require('../../config/kc-config');
 
 
 /**
@@ -148,23 +148,23 @@ var seqConfig = require('../../config/generatorconfig');
 
 module.exports = (app) => {
     
-    app.get('/api/v1/is-service-type',(req,res,next) => {
+    app.get('/api/v1/is-service-type', keycloak.protect(),(req,res,next) => {
         //get all service-types starting with IS-
         let isSvcTypes = seqConfig.serviceType.filter(st => st.type.substring(0,3)==='IS-');
         res.json(isSvcTypes);
     });
 
-    app.get('/api/v1/cf-service-type',(req,res,next) => {
+    app.get('/api/v1/cf-service-type', keycloak.protect(),(req,res,next) => {
         //get all service-types starting with CF-
         let cfSvcTypes = seqConfig.serviceType.filter(st => st.type.substring(0,3)==='CF-');
         res.json(cfSvcTypes);
     });
     
-    app.get('/api/v1/service-owner',(req,res,next) => {
+    app.get('/api/v1/service-owner', keycloak.protect(),(req,res,next) => {
         res.json(seqConfig.serviceOwner);
     });
 
-    app.get('/api/v1/management-domain',(req,res,next) => {
+    app.get('/api/v1/management-domain', keycloak.protect(),(req,res,next) => {
         res.json(seqConfig.managementDomain);
     });
 

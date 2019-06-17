@@ -17,6 +17,14 @@ REDIS_HOST=some-host-name
 REDIS_PORT=6379
 ``` 
 
+Requires a running Keycloak-Instance for authorization. Connection to Keycloak is configured by environment-variables
+
+```
+KEYCLOAK_SERVER_URL=https://mykeycloak.org/auth
+KEYCLOAK_REALM=my-realm
+KEYCLOAK_RESOURCE_ID=my-client
+``` 
+
 ## Configuration
 Definition of Sequence-Numbers/Service-Types/etc. is done statically in ./app/config/generatorconfig.js
 

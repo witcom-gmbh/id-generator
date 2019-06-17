@@ -1,4 +1,5 @@
 var seqConfig = require('../../config/generatorconfig');
+var keycloak   = require('../../config/kc-config');
 const generator = require('../GeneratorService');
 
 /**
@@ -166,11 +167,11 @@ const generator = require('../GeneratorService');
 module.exports = (app) => {
     
     
-    app.get('/api/v1/sequences',(req,res,next) => {
+    app.get('/api/v1/sequences', keycloak.protect(),(req,res,next) => {
         res.json(seqConfig.sequenceDefinition);
     });
     
-    app.get('/api/v1/sequences/:key',(req,res,next) => {
+    app.get('/api/v1/sequences/:key', keycloak.protect('admin'),(req,res,next) => {
 
         if (!req.params){
            res.
@@ -198,7 +199,7 @@ module.exports = (app) => {
         });
     });
     
-    app.put('/api/v1/sequences/:key',(req,res,next) => {
+    app.put('/api/v1/sequences/:key', keycloak.protect('admin'),(req,res,next) => {
 
         if (!req.params){
            res.
