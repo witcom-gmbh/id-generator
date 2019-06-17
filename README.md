@@ -54,10 +54,15 @@ Service-Types define how a service-id is generated. Service-Types are configured
 
 
 ## API-Endpoints (Details see swagger-specifications)
-ID-Genertors
+ID-Generators
 
 * /api/v1/cf-service -> Generator for customer-facing services
 * /api/v1/is-service -> Generator for indrastructure services
+
+Sequences
+
+* /api/v1/sequences -> List of available sequences
+* /api/v1/sequences/{SEQUENCE-KEY} -> get current sequence value, or set new value
 
 Helpers
 

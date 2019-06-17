@@ -1,3 +1,4 @@
+require('dotenv').config(); // this loads the defined variables from .env
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
@@ -10,14 +11,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const port = process.env.PORT || 3000;
-
+const swaggerhost = process.env.APIHOST || 'localhost:3000'
 const swaggerDefinition = {
   info: {
     title: 'Service-ID Generator',
     version: '1.0.0',
     description: 'Endpoints for Service-ID Generation',
   },
-  host: 'localhost:3000',
+  host: swaggerhost,
   basePath: '/',
   securityDefinitions: {
     bearerAuth: {
@@ -35,7 +36,7 @@ const options = {
 };
 const swaggerSpec = swaggerJSDoc(options);
 
-app.get('/swagger.json', (req, res) => {
+app.get('/api/swagger.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
 });
@@ -44,12 +45,13 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 var router = express.Router();              
 
 router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
+    res.json({ message: 'Welcome to the WiTCOM-Sequence-Generator api!' });   
 });
 
 require('./app/routes/infrastructureService')(app);
 require('./app/routes/customerService')(app);
 require('./app/routes/helper')(app);
+require('./app/routes/sequence')(app);
 
 app.use('/api', router);
 app.listen(port);

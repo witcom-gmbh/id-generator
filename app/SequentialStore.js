@@ -5,6 +5,51 @@ var SequentialStore = function(o){
 };
 
 
+SequentialStore.prototype.getval = function(state){
+    
+    var redis = this.redis;
+    var logger = this.logger;
+    var redisKey = this.keyPrefix + state.key;
+    
+    return redis.get(redisKey).then((oldValue) => {
+        return {
+                        successful: true,
+                        value: oldValue
+                };
+    })
+    .catch((error) => {
+        logger.error('Process ' + process.pid + ': Fail to get next sequence value: ' + error.message);
+        return {
+                        successful: false
+            };
+    });
+
+}
+
+SequentialStore.prototype.setval = function(state,newVal){
+    
+    var redis = this.redis;
+    var logger = this.logger;
+    var redisKey = this.keyPrefix + state.key;
+    
+    
+    
+    return redis.set(redisKey, newVal)
+    .then((result) => {
+                return {
+                        successful: true,
+                        value: newVal
+                };
+    })
+    .catch((error) => {
+            logger.warn('Process ' + process.pid + ': Fail to set sequence value: ' + error.message);
+            return {
+                        successful: false
+                };
+    });
+}
+
+
 SequentialStore.prototype.increment = function(state,requestSize){
     
     var redis = this.redis;
