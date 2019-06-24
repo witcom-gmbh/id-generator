@@ -11,6 +11,7 @@ let kcConfig = {
   "use-resource-role-mappings": true,
   "confidential-port": 0
 }
+console.log('Configured Keycloak with Host ' + kcConfig['auth-server-url'] + ' and realm ' + kcConfig['realm']);
 let keycloak = new Keycloak({},kcConfig);
 
 module.exports = keycloak;
