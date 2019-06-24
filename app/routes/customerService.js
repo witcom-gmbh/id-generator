@@ -1,4 +1,5 @@
 const generator = require('../GeneratorService');
+var keycloak   = require('../../config/kc-config');
 
 /**
  * @swagger
@@ -52,7 +53,7 @@ const generator = require('../GeneratorService');
 
 module.exports = (app) => {
     
-    app.post('/api/v1/cf-service',(req,res,next) => {
+    app.post('/api/v1/cf-service', keycloak.protect('cf-id-generate'),(req,res,next) => {
         
         
         if (!req.body){

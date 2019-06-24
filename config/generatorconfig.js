@@ -117,6 +117,6 @@ const idGeneratorConfig = {
         prefixTemplate: 'S-##SEQ##'
     }   
     ]
-}
+};
 
 module.exports = idGeneratorConfig;

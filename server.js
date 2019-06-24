@@ -1,4 +1,6 @@
 require('dotenv').config(); // this loads the defined variables from .env
+//var Keycloak = require('keycloak-connect');
+var keycloak   = require('./config/kc-config');
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
@@ -25,10 +27,16 @@ const swaggerDefinition = {
       type: 'apiKey',
       name: 'Authorization',
       scheme: 'bearer',
+      bearerFormat: 'JWT',
       in: 'header',
     },
   },
 };
+
+//keycloak configuration
+//let keycloak = new Keycloak({},kcConfig);
+app.use( keycloak.middleware() );
+
 
 const options = {
   swaggerDefinition,
@@ -36,7 +44,7 @@ const options = {
 };
 const swaggerSpec = swaggerJSDoc(options);
 
-app.get('/api/swagger.json', (req, res) => {
+app.get('/api/swagger.json', keycloak.protect(), (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
 });
