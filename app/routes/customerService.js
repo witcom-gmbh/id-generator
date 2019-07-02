@@ -53,7 +53,11 @@ var keycloak   = require('../../config/kc-config');
 
 module.exports = (app) => {
     
-    app.post('/api/v1/cf-service', keycloak.protect('cf-id-generate'),(req,res,next) => {
+    app.post('/api/v1/cf-service', keycloak.enforcer(['cf-service:create'], { 
+    resource_server_id: 'id-generator-service' 
+    }),  
+
+    (req,res,next) => {
         
         
         if (!req.body){

@@ -70,7 +70,7 @@ var keycloak   = require('../../config/kc-config');
  *           - md
  *     responses:
  *       '200':
- *         description: User info updated
+ *         description: IS Service-IDs created
  *         schema:
  *           $ref: '#/definitions/IdResponse'
  *       '400':
@@ -79,7 +79,11 @@ var keycloak   = require('../../config/kc-config');
 
 module.exports = (app) => {
     
-    app.post('/api/v1/is-service', keycloak.protect('is-id-generate'),(req,res,next) => {
+    app.post('/api/v1/is-service', keycloak.enforcer(['is-service:create'], { 
+    resource_server_id: 'id-generator-service' 
+    }),  
+
+    (req,res,next) => {
         
         if (!req.body){
            res.
