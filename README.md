@@ -3,7 +3,7 @@
 ID-Generator-API for Services (Customer-facing and internal). Service-IDs consist of a sequence-number that is padded by 0's to have an equal width
 and are prefixed by a service-type-specific prefix.
 
-Sequences are service-type specific, that means sequence no. 12 can csafely coexist for end-user services, infrastrukture services, etc.
+Sequences are service-type specific, that means sequence no. 12 can safely coexist for end-user services, infrastrukture services, etc.
 
 Infrastructure services are mainly used for telco-services where different layers of services exist, that are built upon each other.
 
@@ -23,6 +23,7 @@ Requires a running Keycloak-Instance for authorization. Connection to Keycloak i
 KEYCLOAK_SERVER_URL=https://mykeycloak.org/auth
 KEYCLOAK_REALM=my-realm
 KEYCLOAK_RESOURCE_ID=my-client
+KEYCLOAK_SECRET=my-client-secret
 ``` 
 
 ## Configuration
