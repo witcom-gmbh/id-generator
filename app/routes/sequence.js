@@ -171,7 +171,10 @@ module.exports = (app) => {
         res.json(seqConfig.sequenceDefinition);
     });
     
-    app.get('/api/v1/sequences/:key', keycloak.protect('admin'),(req,res,next) => {
+    app.get('/api/v1/sequences/:key', keycloak.enforcer(['sequence:view'], { 
+    resource_server_id: 'id-generator-service' 
+    }),  
+    (req,res,next) => {
 
         if (!req.params){
            res.
@@ -199,7 +202,10 @@ module.exports = (app) => {
         });
     });
     
-    app.put('/api/v1/sequences/:key', keycloak.protect('admin'),(req,res,next) => {
+    app.put('/api/v1/sequences/:key', keycloak.enforcer(['sequence:create'], { 
+    resource_server_id: 'id-generator-service' 
+    }),  
+    (req,res,next) => {
 
         if (!req.params){
            res.

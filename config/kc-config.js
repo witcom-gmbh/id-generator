@@ -7,6 +7,9 @@ let kcConfig = {
   "auth-server-url": process.env.KEYCLOAK_SERVER_URL,
   "ssl-required": "external",
   "resource": process.env.KEYCLOAK_RESOURCE_ID,
+  "credentials": {
+    "secret": process.env.KEYCLOAK_SECRET
+  },  
   "verify-token-audience": true,
   "use-resource-role-mappings": true,
   "confidential-port": 0
