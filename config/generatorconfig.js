@@ -30,6 +30,10 @@ const idGeneratorConfig = {
     {
         key: 'SERVICE', //the sequence's name which is store in redis.
         
+    },
+    {
+        key: 'LL', //the sequence's name which is store in redis.
+        
     }                
     ],
     redisConfig: {
@@ -49,6 +53,14 @@ const idGeneratorConfig = {
     {
         name:'EdgeGenie',
         id:'B'
+    },
+    {
+        name:'Adva FSP-NM',
+        id:'C'
+    },
+    {
+        name:'Unspezifiziert',
+        id:'Y'
     }
     ],
     serviceOwner:[
@@ -71,9 +83,20 @@ const idGeneratorConfig = {
     {
         name : 'Vistec',
         id: 'VIS'
+    },
+    {
+        name : 'ESWE Versorgung',
+        id: 'ESW'
     }
     ],
     serviceType: [
+    {
+        name: 'Leased-Line',
+        id: 'LL',
+        sequenceKey: 'LL',
+        type: 'IS-LL',
+        prefixTemplate: '##OWNER##-0Y##SEQ##'
+    },
     {
         name: 'Telco Link',
         id: 'LINK',
