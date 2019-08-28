@@ -59,6 +59,10 @@ const idGeneratorConfig = {
         id:'C'
     },
     {
+        name:'SDH-Management',
+        id:'D'
+    },
+    {
         name:'Unspezifiziert',
         id:'Y'
     }
