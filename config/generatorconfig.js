@@ -9,32 +9,32 @@ const idGeneratorConfig = {
     },
     sequenceDefinition : [{
         key: 'LINK', //the sequence's name which is store in redis.
-        
+
     },
     {
         key: 'NNI', //the sequence's name which is store in redis.
-        
+
     },
     {
         key: 'PATH', //the sequence's name which is store in redis.
-        
+
     },
     {
         key: 'CIRCUIT', //the sequence's name which is store in redis.
-        
+
     },
     {
         key: 'IS', //the sequence's name which is store in redis.
-        
+
     },
     {
         key: 'SERVICE', //the sequence's name which is store in redis.
-        
+
     },
     {
         key: 'LL', //the sequence's name which is store in redis.
-        
-    }                
+
+    }
     ],
     redisConfig: {
         hostname:process.env.REDIS_HOST,
@@ -142,7 +142,7 @@ const idGeneratorConfig = {
         sequenceKey: 'SERVICE',
         type: 'CF-SERVICE',
         prefixTemplate: 'S-##SEQ##'
-    }   
+    }
     ]
 };
 

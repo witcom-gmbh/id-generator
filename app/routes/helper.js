@@ -5,22 +5,49 @@ var keycloak   = require('../../config/kc-config');
 /**
  * @swagger
  * definitions:
+ *   serviceType:
+ *     type: object
+ *     properties:
+ *       name:
+ *         type: string
+ *       id:
+ *         type: string
+ *       sequenceKey:
+ *         type: string
+ *       type:
+ *         type: string
+ *       prefixTemplate:
+ *         type: string
+ *     required:
+ *     - name
+ *
+ *
+ */
+
+/**
+ * @swagger
+ * definitions:
  *   serviceTypeResponse:
  *     type: array
  *     items:
- *       type: object
- *       properties:
- *         name:
- *           type: string
- *         id:
- *           type: string
- *         sequenceKey:
- *           type: string* 
- *         type:
- *           type: string
- *         prefixTemplate:
- *           type: string
- * 
+ *       "$ref": "#/definitions/serviceType"
+ *
+ */
+
+/**
+ * @swagger
+ * definitions:
+ *   serviceOwner:
+ *     type: object
+ *     properties:
+ *       name:
+ *         type: string
+ *       id:
+ *         type: string
+ *     required:
+ *     - name
+ *
+ *
  */
 
 /**
@@ -29,13 +56,24 @@ var keycloak   = require('../../config/kc-config');
  *   serviceOwnerResponse:
  *     type: array
  *     items:
- *       type: object
- *       properties:
- *         name:
- *           type: string
- *         id:
- *           type: string
- * 
+ *       "$ref": "#/definitions/serviceOwner"
+ *
+ */
+
+/**
+ * @swagger
+ * definitions:
+ *   managementDomain:
+ *     type: object
+ *     properties:
+ *       name:
+ *         type: string
+ *       id:
+ *         type: string
+ *     required:
+ *     - name
+ *
+ *
  */
 
 /**
@@ -44,13 +82,8 @@ var keycloak   = require('../../config/kc-config');
  *   managementDomainResponse:
  *     type: array
  *     items:
- *       type: object
- *       properties:
- *         name:
- *           type: string
- *         id:
- *           type: string
- * 
+ *       "$ref": "#/definitions/managementDomain"
+ *
  */
 
 
@@ -60,8 +93,9 @@ var keycloak   = require('../../config/kc-config');
  *   get:
  *     tags:
  *       - Helper
- *     name: Get Infrastructure Service-Types
+ *     description: Get Infrastructure Service-Types
  *     summary: Get available Infrastructure Service-Types
+ *     operationId: getIsServiceTypes
  *     security:
  *       - bearerAuth: []
  *     consumes:
@@ -83,8 +117,9 @@ var keycloak   = require('../../config/kc-config');
  *   get:
  *     tags:
  *       - Helper
- *     name: Get customer-facing Service-Types
+ *     description: Get customer-facing Service-Types
  *     summary: Get available customer-facing Service-Types
+ *     operationId: getCFServiceTypes
  *     security:
  *       - bearerAuth: []
  *     consumes:
@@ -106,8 +141,9 @@ var keycloak   = require('../../config/kc-config');
  *   get:
  *     tags:
  *       - Helper
- *     name: Get service-owners
+ *     description: Get service-owners
  *     summary: Get available service-owners for IS-Services
+ *     operationId: getServiceOwners
  *     security:
  *       - bearerAuth: []
  *     consumes:
@@ -129,8 +165,9 @@ var keycloak   = require('../../config/kc-config');
  *   get:
  *     tags:
  *       - Helper
- *     name: Get management-domains
+ *     description: Get management-domains
  *     summary: Get available management-domains for IS-Services
+ *     operationId: getManagementDomains
  *     security:
  *       - bearerAuth: []
  *     consumes:
@@ -147,7 +184,7 @@ var keycloak   = require('../../config/kc-config');
  */
 
 module.exports = (app) => {
-    
+
     app.get('/api/v1/is-service-type', keycloak.protect(),(req,res,next) => {
         //get all service-types starting with IS-
         let isSvcTypes = seqConfig.serviceType.filter(st => st.type.substring(0,3)==='IS-');
@@ -159,7 +196,7 @@ module.exports = (app) => {
         let cfSvcTypes = seqConfig.serviceType.filter(st => st.type.substring(0,3)==='CF-');
         res.json(cfSvcTypes);
     });
-    
+
     app.get('/api/v1/service-owner', keycloak.protect(),(req,res,next) => {
         res.json(seqConfig.serviceOwner);
     });
