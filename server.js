@@ -13,23 +13,41 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const port = process.env.PORT || 3000;
-const swaggerhost = process.env.APIHOST || 'localhost:3000'
+const devMode = (process.env.DEVMODE === 'true') || false;
+
+var securityDefinition = {};
+if (devMode){
+
+    securityDefinition = {
+      type: 'apiKey',
+      name: 'Authorization',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+      in: 'header',
+    };
+
+} else {
+
+    securityDefinition ={
+      type: 'oauth2',
+      flow: 'clientCredentials',
+      authorizationUrl: process.env.KEYCLOAK_SERVER_URL + '/realms/'+process.env.KEYCLOAK_REALM+'/protocol/openid-connect/auth',
+      tokenUrl: process.env.KEYCLOAK_SERVER_URL + '/realms/'+process.env.KEYCLOAK_REALM+'/protocol/openid-connect/token',
+      scopes: {},
+    };
+
+}
+
 const swaggerDefinition = {
   info: {
     title: 'Service-ID Generator',
     version: '1.0.0',
     description: 'Endpoints for Service-ID Generation',
   },
-  host: swaggerhost,
+  host: "",
   basePath: '/',
   securityDefinitions: {
-    bearerAuth: {
-      type: 'oauth2',
-      flow: 'password',
-      authorizationUrl: 'http://FQDN',
-      tokenUrl: 'FQDN',
-      scopes: {'open-id':"default-scope"},
-    },
+    bearerAuth: securityDefinition
   },
 };
 
@@ -44,12 +62,13 @@ const options = {
 };
 const swaggerSpec = swaggerJSDoc(options);
 
-app.get('/api/swagger.json', keycloak.protect(), (req, res) => {
+app.get('/api/swagger.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
 });
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
+if (devMode){
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+}
 var router = express.Router();
 
 router.get('/', function(req, res) {

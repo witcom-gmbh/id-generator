@@ -13,7 +13,7 @@ var keycloak   = require('../../config/kc-config');
  *       id:
  *         type: string
  *       sequenceKey:
- *         type: string*
+ *         type: string
  *       type:
  *         type: string
  *       prefixTemplate:
