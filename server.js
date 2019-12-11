@@ -30,7 +30,7 @@ if (devMode){
 
     securityDefinition ={
       type: 'oauth2',
-      flow: 'clientCredentials',
+      flow: 'application',
       authorizationUrl: process.env.KEYCLOAK_SERVER_URL + '/realms/'+process.env.KEYCLOAK_REALM+'/protocol/openid-connect/auth',
       tokenUrl: process.env.KEYCLOAK_SERVER_URL + '/realms/'+process.env.KEYCLOAK_REALM+'/protocol/openid-connect/token',
       scopes: {},
