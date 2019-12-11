@@ -11,8 +11,8 @@ const generator = require('../GeneratorService');
  *       newVal:
  *         type: integer
  *         minimum: 1
- *       required:
- *         - newVal
+ *     required:
+ *     - newVal
  */
 
 /**
@@ -34,8 +34,19 @@ const generator = require('../GeneratorService');
  *       successful:
  *         type: boolean
  *       value:
- *         type: integer 
+ *         type: integer
  */
+
+/**
+ * @swagger
+ * definitions:
+ *   Sequence:
+ *     type: object
+ *     properties:
+ *       key:
+ *         type: string
+ */
+
 
 /**
  * @swagger
@@ -43,46 +54,9 @@ const generator = require('../GeneratorService');
  *   GetSequencesResponse:
  *     type: array
  *     items:
- *       type: object
- *       properties:
- *         key:
- *           type: string
+ *       "$ref": "#/definitions/Sequence"
+ *
  */
-
-/**
- * @swagger
- * /api/v1/sequences/{key}:
- *   put:
- *     tags:
- *       - Sequence
- *     name: Set sequnce to a new value
- *     summary: Sets sequence to an new value
- *     security:
- *       - bearerAuth: []
- *     consumes:
- *       - application/json
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: key
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *       - name: body
- *         in: body
- *         schema:
- *           $ref: '#/definitions/UpdateSequenceValueRequest'
- *     responses:
- *       '200':
- *         description: Sequence value updated
- *         schema:
- *           $ref: '#/definitions/UpdateSequenceValueResponse'
- *       '400':
- *         description: Sequence-Id could not be updated
- */
-
-
 
 /**
  * @swagger
@@ -90,8 +64,9 @@ const generator = require('../GeneratorService');
  *   get:
  *     tags:
  *       - Sequence
- *     name: Get all sequence definitions
+ *     description: Get all sequence definitions
  *     summary: Get all sequence definitions
+ *     operationId: getSequenceDefinitions
  *     security:
  *       - bearerAuth: []
  *     consumes:
@@ -113,7 +88,8 @@ const generator = require('../GeneratorService');
  *   get:
  *     tags:
  *       - Sequence
- *     name: Get sequence value
+ *     description: Get sequence value
+ *     operationId: getSequenceValue
  *     summary: Get sequence value
  *     security:
  *       - bearerAuth: []
@@ -137,8 +113,9 @@ const generator = require('../GeneratorService');
  *   put:
  *     tags:
  *       - Sequence
- *     name: Set sequnce to a new value
+ *     description: Set sequnce to a new value
  *     summary: Sets sequence to an new value
+ *     operationId: updateSequenceValue
  *     security:
  *       - bearerAuth: []
  *     consumes:
@@ -165,29 +142,29 @@ const generator = require('../GeneratorService');
  */
 
 module.exports = (app) => {
-    
-    
+
+
     app.get('/api/v1/sequences', keycloak.protect(),(req,res,next) => {
         res.json(seqConfig.sequenceDefinition);
     });
-    
-    app.get('/api/v1/sequences/:key', keycloak.enforcer(['sequence:view'], { 
-    resource_server_id: 'id-generator-service' 
-    }),  
+
+    app.get('/api/v1/sequences/:key', keycloak.enforcer(['sequence:view'], {
+    resource_server_id: process.env.KEYCLOAK_RESOURCE_ID
+    }),
     (req,res,next) => {
 
         if (!req.params){
            res.
            status(400).
-           json({errMsg:"Request params are empty"}); 
-           return; 
-        }        
+           json({errMsg:"Request params are empty"});
+           return;
+        }
         if (!req.params.key){
            res.
            status(400).
-           json({errMsg:"Request has no sequence key"}); 
-           return; 
-        }        
+           json({errMsg:"Request has no sequence key"});
+           return;
+        }
 
         let  = sequenceKey = req.params.key;
 
@@ -201,36 +178,36 @@ module.exports = (app) => {
             json(err);
         });
     });
-    
-    app.put('/api/v1/sequences/:key', keycloak.enforcer(['sequence:create'], { 
-    resource_server_id: 'id-generator-service' 
-    }),  
+
+    app.put('/api/v1/sequences/:key', keycloak.enforcer(['sequence:create'], {
+    resource_server_id: process.env.KEYCLOAK_RESOURCE_ID
+    }),
     (req,res,next) => {
 
         if (!req.params){
            res.
            status(400).
-           json({errMsg:"Request params are empty"}); 
-           return; 
-        }        
+           json({errMsg:"Request params are empty"});
+           return;
+        }
         if (!req.params.key){
            res.
            status(400).
-           json({errMsg:"Request has no sequence key"}); 
-           return; 
-        }        
+           json({errMsg:"Request has no sequence key"});
+           return;
+        }
 
         if (!req.body){
            res.
            status(400).
-           json({errMsg:"Request body is empty"}); 
+           json({errMsg:"Request body is empty"});
            return;
         }
-        
+
         let obj = req.body;
-        
+
         if (!obj.newVal){
-            res.status(400).json({errMsg:"Request has no newVal"}); 
+            res.status(400).json({errMsg:"Request has no newVal"});
             return;
         }
         obj.sequenceKey = req.params.key;

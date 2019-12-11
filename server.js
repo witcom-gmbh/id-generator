@@ -24,11 +24,11 @@ const swaggerDefinition = {
   basePath: '/',
   securityDefinitions: {
     bearerAuth: {
-      type: 'apiKey',
-      name: 'Authorization',
-      scheme: 'bearer',
-      bearerFormat: 'JWT',
-      in: 'header',
+      type: 'oauth2',
+      flow: 'password',
+      authorizationUrl: 'http://FQDN',
+      tokenUrl: 'FQDN',
+      scopes: {'open-id':"default-scope"},
     },
   },
 };
@@ -50,10 +50,10 @@ app.get('/api/swagger.json', keycloak.protect(), (req, res) => {
 });
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-var router = express.Router();              
+var router = express.Router();
 
 router.get('/', function(req, res) {
-    res.json({ message: 'Welcome to the WiTCOM-Sequence-Generator api!' });   
+    res.json({ message: 'Welcome to the WiTCOM-Sequence-Generator api!' });
 });
 
 require('./app/routes/infrastructureService')(app);
