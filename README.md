@@ -15,7 +15,7 @@ Connectio to REDIS is configured by environment-variables
 REDIS_PASSWORD=some-password
 REDIS_HOST=some-host-name
 REDIS_PORT=6379
-``` 
+```
 
 Requires a running Keycloak-Instance for authorization. Connection to Keycloak is configured by environment-variables
 
@@ -24,10 +24,13 @@ KEYCLOAK_SERVER_URL=https://mykeycloak.org/auth
 KEYCLOAK_REALM=my-realm
 KEYCLOAK_RESOURCE_ID=my-client
 KEYCLOAK_SECRET=my-client-secret
-``` 
+```
+
+Example Authorization-Config can be found in ./app/config/kc-resource-config.json.
+Due to a bug in Keycloak (https://issues.redhat.com/browse/KEYCLOAK-10746) this file and the keycloak authorization config have to be kept in sync.
 
 ## Configuration
-Definition of Sequence-Numbers/Service-Types/etc. is done statically in ./app/config/generatorconfig.js
+Definition of Sequence-Numbers/Service-Types/etc. is done statically in ./app/config/generatorconfig.json
 
 ###Sequences
 Sequences define the number-part of the service-id. Sequences are incrementing. Every sequnce has the following configurable attributes
@@ -55,7 +58,7 @@ Service-Types define how a service-id is generated. Service-Types are configured
 * name -> Displayname
 * id: -> internal-id, used in a request for Service-IDs
 * sequenceKey -> defines which sequence is used for the service-ide
-* type: -> distinguishes between infrastructure (Prefix IS-)  & customer-facing (prefix CF-) service-types 
+* type: -> distinguishes between infrastructure (Prefix IS-)  & customer-facing (prefix CF-) service-types
 * prefixTemplate -> Template that is used to generate the service-id. The folloing placeolders can be used
 ** ##OWNER## -> Owner
 ** ##MD## -> Management-Domain
@@ -78,6 +81,6 @@ Helpers
 * /api/v1/is-service-type -> Get available infrastructure service types
 * /api/v1/cf-service-type -> Get available customer-facing service types
 * /api/v1/service-owner -> Get available service-owners
-* /api/v1/management-domain -> Get available management-domaind
+* /api/v1/management-domain -> Get available management-domains
 
 

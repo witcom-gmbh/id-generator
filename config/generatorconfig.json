@@ -1,0 +1,151 @@
+{
+    "sequenceDefaults" : {
+        "initialCursor": 1,
+        "padding": "0",
+        "maxValue": 99999999
+    },
+    "sequenceDefinition" : [{
+        "key": "LINK"
+
+    },
+    {
+        "key": "NNI"
+
+    },
+    {
+        "key": "PATH"
+
+    },
+    {
+        "key": "CIRCUIT"
+
+    },
+    {
+        "key": "IS"
+
+    },
+    {
+        "key": "SERVICE"
+
+    },
+    {
+        "key": "LL"
+
+    },
+    {
+        "key": "SERVICEACCESS"
+
+    }
+    ],
+
+    "managementDomain":[
+    {
+        "name:":"blueplanet MCP",
+        "id" : "A"
+    },
+    {
+        "name":"Übergreifend",
+        "id":"Z"
+    },
+    {
+        "name":"EdgeGenie",
+        "id":"B"
+    },
+    {
+        "name":"Adva FSP-NM",
+        "id":"C"
+    },
+    {
+        "name":"SDH-Management",
+        "id":"D"
+    },
+    {
+        "name":"Unspezifiziert",
+        "id":"Y"
+    }
+    ],
+    "serviceOwner":[
+    {
+        "name" : "WiTCOM",
+        "id": "WIT"
+    },
+    {
+        "name" : "Colt",
+        "id": "CLT"
+    },
+    {
+        "name" : "Verizon",
+        "id": "VRZ"
+    },
+    {
+        "name" : "Versatel",
+        "id": "VER"
+    },
+    {
+        "name" : "Vistec",
+        "id": "VIS"
+    },
+    {
+        "name" : "ESWE Versorgung",
+        "id": "ESW"
+    }
+    ],
+    "serviceType": [
+    {
+        "name": "Leased-Line",
+        "id": "LL",
+        "sequenceKey": "LL",
+        "type": "IS-LL",
+        "prefixTemplate": "##OWNER##-0Y##SEQ##"
+    },
+    {
+        "name": "Telco Link",
+        "id": "LINK",
+        "sequenceKey": "LINK",
+        "type": "IS-TELCO",
+        "prefixTemplate": "##OWNER##-1##MD####SEQ##"
+    },
+    {
+        "name": "Telco NNI",
+        "id": "NNI",
+        "sequenceKey": "NNI",
+        "type": "IS-TELCO",
+        "prefixTemplate": "##OWNER##-2Z##SEQ##"
+    },
+    {
+        "name": "Telco Path",
+        "id": "PATH",
+        "sequenceKey": "PATH",
+        "type": "IS-TELCO",
+        "prefixTemplate": "##OWNER##-4##MD####SEQ##"
+    },
+    {
+        "name": "Telco Circuit",
+        "id": "CIRCUIT",
+        "sequenceKey": "CIRCUIT",
+        "type": "IS-TELCO",
+        "prefixTemplate": "##OWNER##-6##MD####SEQ##"
+    },
+    {
+        "name": "Infrastruktur-Service",
+        "id": "IS",
+        "sequenceKey": "IS",
+        "type": "IS-SERVICE",
+        "prefixTemplate": "##OWNER##-7Z##SEQ##"
+    },
+    {
+        "name": "Endkunden-Service",
+        "id": "SERVICE",
+        "sequenceKey": "SERVICE",
+        "type": "CF-SERVICE",
+        "prefixTemplate": "S-##SEQ##"
+    },
+    {
+        "name": "Service-Access",
+        "id": "SERVICEACCESS",
+        "sequenceKey": "SERVICEACCESS",
+        "type": "IS-SERVICE",
+        "prefixTemplate": "##OWNER##-SA##SEQ##"
+    }
+    ]
+}

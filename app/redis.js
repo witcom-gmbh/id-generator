@@ -1,10 +1,12 @@
 var seqConfig = require('../config/generatorconfig');
 
 var settings = {
-    host: seqConfig.redisConfig.hostname,
-    port: seqConfig.redisConfig.port,
-    password:seqConfig.redisConfig.password
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    password:process.env.REDIS_PASSWORD
 };
+
+
 var logger = console;
 //var redis = require("redis");
 const asyncRedis = require("async-redis");

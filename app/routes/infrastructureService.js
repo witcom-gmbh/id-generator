@@ -1,5 +1,7 @@
 const generator = require('../GeneratorService');
 var keycloak   = require('../../config/kc-config');
+var generatorConfig = require('../../config/generatorconfig');
+const kcResource = require('../helper/KcResourceHelper');
 
 /**
  * @swagger
@@ -42,7 +44,7 @@ var keycloak   = require('../../config/kc-config');
  *     tags:
  *       - Generator
  *     description: Generate Infrastructure Service-IDs
- *     summary: Generates Infrastrukture Service-IDs for a specified service-type
+ *     summary: Generates Infrastrukture Service-IDs for a specified service-type-id
  *     operationId: generateISServiceIds
  *     security:
  *       - bearerAuth: []
@@ -69,8 +71,9 @@ var keycloak   = require('../../config/kc-config');
  */
 
 module.exports = (app) => {
+    let resourceId = kcResource.getResourceId('is-service');
 
-    app.post('/api/v1/is-service', keycloak.enforcer(['is-service:create'], {
+    app.post('/api/v1/is-service', keycloak.enforcer([resourceId+':create'], {
     resource_server_id: process.env.KEYCLOAK_RESOURCE_ID
     }),
 

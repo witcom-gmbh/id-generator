@@ -1,0 +1,235 @@
+{
+  "allowRemoteResourceManagement": true,
+  "policyEnforcementMode": "ENFORCING",
+  "resources": [
+    {
+      "name": "sequence",
+      "ownerManagedAccess": false,
+      "displayName": "ID-Generator Sequenzen",
+      "attributes": {},
+      "_id": "59feb9f2-4445-438e-b2c0-f789476e3ebc",
+      "uris": [
+        "/api/v1/sequences/*",
+        "/api/v1/sequences"
+      ],
+      "scopes": [
+        {
+          "name": "view"
+        },
+        {
+          "name": "test"
+        },
+        {
+          "name": "create"
+        }
+      ]
+    },
+    {
+      "name": "is-service",
+      "ownerManagedAccess": false,
+      "displayName": "Infrastruktur-Service",
+      "attributes": {},
+      "_id": "4abbb297-2f1d-495f-a006-996c2e87eb58",
+      "uris": [
+        "/api/v1/is-service"
+      ],
+      "scopes": [
+        {
+          "name": "create"
+        }
+      ]
+    },
+    {
+      "name": "cf-service",
+      "ownerManagedAccess": false,
+      "displayName": "Endkundenservice-ID",
+      "attributes": {},
+      "_id": "902a309b-51f2-4e9d-97da-242bab3f6682",
+      "uris": [
+        "/api/v1/cf-service"
+      ],
+      "scopes": [
+        {
+          "name": "create"
+        }
+      ]
+    },
+    {
+      "name": "Default Resource",
+      "type": "urn:id-generator-service:resources:default",
+      "ownerManagedAccess": false,
+      "attributes": {},
+      "_id": "24417698-29da-425c-acf6-b5068647c89b",
+      "uris": [
+        "/*"
+      ]
+    }
+  ],
+  "policies": [
+    {
+      "id": "73b6d382-ec3f-415c-a28f-d7cadb572713",
+      "name": "Default Policy",
+      "description": "A policy that grants access only for users within this realm",
+      "type": "js",
+      "logic": "POSITIVE",
+      "decisionStrategy": "AFFIRMATIVE",
+      "config": {
+        "code": "// by default, grants any permission associated with this policy\n$evaluation.grant();\n"
+      }
+    },
+    {
+      "id": "dfc6b290-91f8-493e-a6ef-f47421c96a48",
+      "name": "ID Generator Admin Role",
+      "type": "role",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "roles": "[{\"id\":\"id-generator-service/admin\",\"required\":true}]"
+      }
+    },
+    {
+      "id": "8f23d93f-62dd-4b5f-bea8-df934d4f211f",
+      "name": "ID Generator Admin Group",
+      "type": "group",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "groups": "[{\"path\":\"/Infrastructure-Management-Admin\",\"extendChildren\":false}]"
+      }
+    },
+    {
+      "id": "fc5c3e3f-6ae0-44a6-b9d0-f8157d8bd9f0",
+      "name": "ID Generator Admin",
+      "type": "aggregate",
+      "logic": "POSITIVE",
+      "decisionStrategy": "AFFIRMATIVE",
+      "config": {
+        "applyPolicies": "[\"ID Generator Admin Role\",\"ID Generator Admin Group\"]"
+      }
+    },
+    {
+      "id": "568f956e-70ab-45f9-82d7-d878dff568c7",
+      "name": "Infrastructure-ID-Manager",
+      "type": "group",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "groups": "[{\"path\":\"/Infrastructure-Management-Admin\",\"extendChildren\":false},{\"path\":\"/Infrastructure-Management-Basis\",\"extendChildren\":false}]"
+      }
+    },
+    {
+      "id": "dbbc364c-3bbe-4232-8baa-5ee3b27dbf08",
+      "name": "Service-ID-Manager",
+      "type": "group",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "groups": "[{\"path\":\"/Service-Management-Basis\",\"extendChildren\":false}]"
+      }
+    },
+    {
+      "id": "3df83a2d-e3bb-45ca-bdce-421d87004048",
+      "name": "Infrastructure-Service-ID Create Role",
+      "type": "role",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "roles": "[{\"id\":\"service-access-api/READ\",\"required\":true}]"
+      }
+    },
+    {
+      "id": "97d0ccad-152c-4f2b-8a39-0ff8fec99fc0",
+      "name": "Allow Service-Accounts",
+      "type": "js",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "code": "var context = $evaluation.getContext();\nvar identity = context.getIdentity();\nvar attributes = identity.getAttributes();\nvar username = attributes.getValue('preferred_username').asString(0);\nvar clientId = attributes.getValue('clientId').asString(0);\n\nif (username === 'service-account-' + clientId) {\n    $evaluation.grant();\n} else {\n    $evaluation.deny();\n}"
+      }
+    },
+    {
+      "id": "7e0ac155-a0eb-4eb9-a886-5c83274885c0",
+      "name": "Service-Access-API Client",
+      "type": "client",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "clients": "[\"service-access-api\"]"
+      }
+    },
+    {
+      "id": "fefda041-0bf1-48d7-933e-aafea329dc34",
+      "name": "Default Permission",
+      "description": "A permission that applies to the default resource type",
+      "type": "resource",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "defaultResourceType": "urn:id-generator-service:resources:default",
+        "applyPolicies": "[\"Default Policy\"]"
+      }
+    },
+    {
+      "id": "bfae3684-878e-46b0-a391-6e1e746fb337",
+      "name": "Sequence Admin",
+      "type": "scope",
+      "logic": "POSITIVE",
+      "decisionStrategy": "AFFIRMATIVE",
+      "config": {
+        "resources": "[\"sequence\"]",
+        "scopes": "[\"create\"]",
+        "applyPolicies": "[\"ID Generator Admin\"]"
+      }
+    },
+    {
+      "id": "dc3f21ff-30cb-4458-bc71-19f2dcda74c8",
+      "name": "is-id-create",
+      "type": "scope",
+      "logic": "POSITIVE",
+      "decisionStrategy": "AFFIRMATIVE",
+      "config": {
+        "resources": "[\"is-service\"]",
+        "scopes": "[\"create\"]",
+        "applyPolicies": "[\"Infrastructure-ID-Manager\",\"ID Generator Admin\"]"
+      }
+    },
+    {
+      "id": "a71b4f0a-4cde-4301-8b51-d72de70fd0ed",
+      "name": "cf-id-create",
+      "type": "scope",
+      "logic": "POSITIVE",
+      "decisionStrategy": "AFFIRMATIVE",
+      "config": {
+        "resources": "[\"cf-service\"]",
+        "scopes": "[\"create\"]",
+        "applyPolicies": "[\"ID Generator Admin\"]"
+      }
+    },
+    {
+      "id": "0871bfe6-4807-44d0-b1d8-3dcbbe4a1371",
+      "name": "sequence-read",
+      "type": "scope",
+      "logic": "POSITIVE",
+      "decisionStrategy": "AFFIRMATIVE",
+      "config": {
+        "resources": "[\"sequence\"]",
+        "scopes": "[\"view\"]",
+        "applyPolicies": "[\"Default Policy\"]"
+      }
+    }
+  ],
+  "scopes": [
+    {
+      "id": "b5849837-d490-44fc-b957-f734144b37e1",
+      "name": "test"
+    },
+    {
+      "id": "0f183813-160e-415e-a6ac-81b8e28447c9",
+      "name": "view"
+    },
+    {
+      "id": "b560eaac-a377-4ff5-b533-fd9172ce3da8",
+      "name": "create"
+    }
+  ]
+}
