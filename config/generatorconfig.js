@@ -34,6 +34,10 @@ const idGeneratorConfig = {
     {
         key: 'LL', //the sequence's name which is store in redis.
 
+    },
+    {
+        key: 'SERVICEACCESS', //the sequence's name which is store in redis.
+
     }
     ],
     redisConfig: {
@@ -142,6 +146,13 @@ const idGeneratorConfig = {
         sequenceKey: 'SERVICE',
         type: 'CF-SERVICE',
         prefixTemplate: 'S-##SEQ##'
+    },
+    {
+        name: 'Service-Access',
+        id: 'SERVICEACCESS',
+        sequenceKey: 'SERVICEACCESS',
+        type: 'IS-SERVICE',
+        prefixTemplate: '##OWNER##-SA##SEQ##'
     }
     ]
 };
