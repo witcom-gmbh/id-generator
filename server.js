@@ -1,6 +1,7 @@
 require('dotenv').config(); // this loads the defined variables from .env
 //var Keycloak = require('keycloak-connect');
 var keycloak   = require('./config/kc-config');
+var cors = require('cors');
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
@@ -16,6 +17,9 @@ const devMode = (process.env.DEVMODE === 'true') || false;
 
 var securityDefinition = {};
 if (devMode){
+
+    app.options('*', cors())
+    app.use(cors());
 
     securityDefinition = {
       type: 'apiKey',
