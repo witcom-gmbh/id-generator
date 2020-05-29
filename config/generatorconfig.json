@@ -62,6 +62,10 @@
     {
         "name":"Unspezifiziert",
         "id":"Y"
+    },
+    {
+        "name":"Arista-DC-Switching",
+        "id":"E"
     }
     ],
     "serviceOwner":[
