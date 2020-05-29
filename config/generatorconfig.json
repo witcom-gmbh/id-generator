@@ -66,6 +66,10 @@
     {
         "name":"Arista-DC-Switching",
         "id":"E"
+    },
+    {
+        "name":"VCENTER-VDC",
+        "id":"F"
     }
     ],
     "serviceOwner":[
