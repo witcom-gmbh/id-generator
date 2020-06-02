@@ -1,6 +1,6 @@
 {
   "name": "id-generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Creates service-ids for services",
   "main": "server.js",
   "scripts": {
