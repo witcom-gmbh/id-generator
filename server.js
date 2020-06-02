@@ -44,7 +44,7 @@ if (devMode){
 const swaggerDefinition = {
   info: {
     title: 'Service-ID Generator',
-    version: '1.0.0',
+    version: '1.1.0',
     description: 'Endpoints for Service-ID Generation',
   },
   host: "",

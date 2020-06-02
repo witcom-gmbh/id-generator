@@ -86,6 +86,43 @@ var keycloak   = require('../../config/kc-config');
  *
  */
 
+/**
+ * @swagger
+ * definitions:
+ *   serviceTemplate:
+ *     type: object
+ *     properties:
+ *       name:
+ *         type: string
+ *       id:
+ *         type: string
+ *       type:
+ *         type: string
+ *         enum: [IS, CF]
+ *       template:
+ *         type: object
+ *         properties:
+ *           serviceOwner:
+ *             type: string
+ *           serviceType:
+ *             type: string
+ *           md:
+ *             type: string
+ *     required:
+ *     - name
+ *
+ */
+
+/**
+ * @swagger
+ * definitions:
+ *   serviceTemplateResponse:
+ *     type: array
+ *     items:
+ *       "$ref": "#/definitions/serviceTemplate"
+ *
+ */
+
 
 /**
  * @swagger
@@ -183,6 +220,31 @@ var keycloak   = require('../../config/kc-config');
  *         description: List of management-domains could not be retrieved
  */
 
+/**
+ * @swagger
+ * /api/v1/service-template:
+ *   get:
+ *     tags:
+ *       - Helper
+ *     description: Get service-templates
+ *     summary: Get service-templates for predefines use-cases
+ *     operationId: getServiceTemplates
+ *     security:
+ *       - bearerAuth: []
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       '200':
+ *         description: List of service-Templates
+ *         schema:
+ *           $ref: '#/definitions/serviceTemplateResponse'
+ *       '400':
+ *         description: List of service-templates could not be retrieved
+ */
+
+
 module.exports = (app) => {
 
     app.get('/api/v1/is-service-type', keycloak.protect(),(req,res,next) => {
@@ -205,6 +267,10 @@ module.exports = (app) => {
         res.json(seqConfig.managementDomain);
     });
 
+    app.get('/api/v1/service-template', keycloak.protect(),(req,res,next) => {
+        res.json(seqConfig.serviceTemplate);
+    });
 
+    
 
 };
