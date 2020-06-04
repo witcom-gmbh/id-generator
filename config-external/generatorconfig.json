@@ -4,6 +4,47 @@
         "padding": "0",
         "maxValue": 99999999
     },
+    "serviceTemplate" : [{
+        "name":"Direkter Ciena LLDP-Link",
+        "description":"Link zwischen direkt benachbarten Ciena Devices",
+        "template":{
+            "serviceOwner":"WIT",
+            "serviceType":"LINK",
+            "md":"A"
+        },
+        "type":"IS"
+    },
+    {
+        "name":"Ciena MPLS-Tunnel",
+        "description":"LSP zwischen Ciena-MPLS-Devices",
+        "template":{
+            "serviceOwner":"WIT",
+            "serviceType":"PATH",
+            "md":"A"
+        },
+        "type":"IS"
+    },
+    {
+        "name":"Ciena Packet-Service",
+        "description":"E-Line, E-Tree, E-LAN Services",
+        "template":{
+            "serviceOwner":"WIT",
+            "serviceType":"CIRCUIT",
+            "md":"A"
+        },
+        "type":"IS"
+    },
+    {
+        "name":"ESWE Darkfibre",
+        "description":"DF-Strecke",
+        "template":{
+            "serviceOwner":"ESW",
+            "serviceType":"LL",
+            "md":"Y"
+        },
+        "type":"IS"
+    }
+    ],
     "sequenceDefinition" : [{
         "key": "LINK"
 
