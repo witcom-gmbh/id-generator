@@ -37,7 +37,7 @@ It is possible to define another configfile-location by using an environment var
 CONFIGFILE=Location of config-file 
 ```
 
-###Sequences
+### Sequences
 Sequences define the number-part of the service-id. Sequences are incrementing. Every sequnce has the following configurable attributes
 
 * key - unique-id of the sequence
@@ -45,19 +45,19 @@ Sequences define the number-part of the service-id. Sequences are incrementing. 
 * maxValue - maximum value, default 99999999
 * padding - character that prefixes the sequence, so that all sequences have the same width, default 0
 
-###Management-Domains
+### Management-Domains
 It is possible to differentiate infrastructure-services by the management-domain, that is the system where the infrastructure-service is configured.
 The id of the management-domain can be used in a prefix to the sequence-number. Services in different management-domains share the same sequnce-number range
 as long as the services use the same sequence-key.
 To use different sequence-number ranges per management-domain, different service-types have to be configured
 
-###Service-Owner
+### Service-Owner
 It is possible to differentiate infrastructure-services by the owner, that is the provider of the infrastructure-service.
 The ID of the Service-Owner can be used in a prefix to the sequence-number. Services with different owners share the same sequnce-number range
 as long as the services use the same sequence-key.
 To use different sequence-number ranges per owner, different service-types have to be configured
 
-###Service-Types
+### Service-Types
 Service-Types define how a service-id is generated. Service-Types are configured as follows
 
 * name -> Displayname
@@ -69,25 +69,26 @@ Service-Types define how a service-id is generated. Service-Types are configured
 ** ##MD## -> Management-Domain
 ** ##SEQ## -> padded Sequence-Number (if not present in template, no sequnce number is added at all)
 
-###Service-Templates
+### Service-Templates
 For faster and simpler ID-Generation service-templates can be used. Service-Templates have a predefined Mangement-Domain,Owner and Service-Type. 
+Service-Templates can be used by a frontend application to preset those attributes.
 
 ## API-Endpoints (Details see swagger-specifications)
-ID-Generators
+### ID-Generators
 
 * /api/v1/cf-service -> Generator for customer-facing services
 * /api/v1/is-service -> Generator for indrastructure services
 
-Sequences
+### Sequences
 
 * /api/v1/sequences -> List of available sequences
 * /api/v1/sequences/{SEQUENCE-KEY} -> get current sequence value, or set new value
 
-Helpers
+### Helpers
 
 * /api/v1/is-service-type -> Get available infrastructure service types
 * /api/v1/cf-service-type -> Get available customer-facing service types
 * /api/v1/service-owner -> Get available service-owners
 * /api/v1/management-domain -> Get available management-domains
-* 
+* /api/v1/service-template -> Get available service-templates
 
