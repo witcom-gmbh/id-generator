@@ -31,6 +31,11 @@ Due to a bug in Keycloak (https://issues.redhat.com/browse/KEYCLOAK-10746) this 
 
 ## Configuration
 Definition of Sequence-Numbers/Service-Types/etc. is done statically in ./app/config/generatorconfig.json
+It is possible to define another configfile-location by using an environment variable
+
+```
+CONFIGFILE=Location of config-file 
+```
 
 ###Sequences
 Sequences define the number-part of the service-id. Sequences are incrementing. Every sequnce has the following configurable attributes
@@ -64,6 +69,8 @@ Service-Types define how a service-id is generated. Service-Types are configured
 ** ##MD## -> Management-Domain
 ** ##SEQ## -> padded Sequence-Number (if not present in template, no sequnce number is added at all)
 
+###Service-Templates
+For faster and simpler ID-Generation service-templates can be used. Service-Templates have a predefined Mangement-Domain,Owner and Service-Type. 
 
 ## API-Endpoints (Details see swagger-specifications)
 ID-Generators
@@ -82,5 +89,5 @@ Helpers
 * /api/v1/cf-service-type -> Get available customer-facing service types
 * /api/v1/service-owner -> Get available service-owners
 * /api/v1/management-domain -> Get available management-domains
-
+* 
 

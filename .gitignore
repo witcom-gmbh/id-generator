@@ -1,3 +1,5 @@
+config-external/generatorconfig.json
+
 # Logs
 logs
 *.log

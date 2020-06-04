@@ -1,6 +1,8 @@
 require('dotenv').config(); // this loads the defined variables from .env
 const fs = require('fs');
 
-const idGeneratorConfig = JSON.parse(fs.readFileSync('./config-external/generatorconfig.json', 'utf-8'));
+const CONFIGFILE = process.env.CONFIGFILE || './config/generatorconfig.json';
+
+const idGeneratorConfig = JSON.parse(fs.readFileSync(CONFIGFILE, 'utf-8'));
 
 module.exports = idGeneratorConfig;
