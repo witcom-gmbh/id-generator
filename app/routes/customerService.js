@@ -1,6 +1,5 @@
 const generator = require('../GeneratorService');
 var keycloak   = require('../../config/kc-config');
-const kcResource = require('../helper/KcResourceHelper');
 
 /**
  * @swagger
@@ -48,9 +47,9 @@ const kcResource = require('../helper/KcResourceHelper');
  */
 
 module.exports = (app) => {
-    let resourceId = kcResource.getResourceId('cf-service');
+    let resourceName = 'cf-service';
 
-    app.post('/api/v1/cf-service', keycloak.enforcer([resourceId+':create'], {
+    app.post('/api/v1/cf-service', keycloak.enforcer([resourceName+':create'], {
     resource_server_id: process.env.KEYCLOAK_RESOURCE_ID
     }),
 
