@@ -7,7 +7,6 @@ var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var swaggerJSDoc = require('swagger-jsdoc');
 var swaggerUi = require( 'swagger-ui-express');
-const kcResource = require('./app/helper/KcResourceHelper');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

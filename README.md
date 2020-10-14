@@ -26,9 +26,6 @@ KEYCLOAK_RESOURCE_ID=my-client
 KEYCLOAK_SECRET=my-client-secret
 ```
 
-Example Authorization-Config can be found in ./app/config/kc-resource-config.json.
-Due to a bug in Keycloak (https://issues.redhat.com/browse/KEYCLOAK-10746) this file and the keycloak authorization config have to be kept in sync.
-
 ## Configuration
 Definition of Sequence-Numbers/Service-Types/etc. is done statically in ./app/config/generatorconfig.json
 It is possible to define another configfile-location by using an environment variable

@@ -1,7 +1,6 @@
 var seqConfig = require('../../config/generatorconfig');
 var keycloak   = require('../../config/kc-config');
 const generator = require('../GeneratorService');
-const kcResource = require('../helper/KcResourceHelper');
 
 /**
  * @swagger
@@ -149,8 +148,8 @@ module.exports = (app) => {
         res.json(seqConfig.sequenceDefinition);
     });
 
-    let resourceId = kcResource.getResourceId('sequence');
-    app.get('/api/v1/sequences/:key', keycloak.enforcer([resourceId+':view'], {
+    let resourceName = 'sequence';
+    app.get('/api/v1/sequences/:key', keycloak.enforcer([resourceName+':view'], {
     resource_server_id: process.env.KEYCLOAK_RESOURCE_ID
     }),
     (req,res,next) => {
@@ -181,7 +180,7 @@ module.exports = (app) => {
         });
     });
 
-    app.put('/api/v1/sequences/:key', keycloak.enforcer([resourceId+':create'], {
+    app.put('/api/v1/sequences/:key', keycloak.enforcer([resourceName+':create'], {
     resource_server_id: process.env.KEYCLOAK_RESOURCE_ID
     }),
     (req,res,next) => {
