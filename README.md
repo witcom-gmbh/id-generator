@@ -89,3 +89,7 @@ Service-Templates can be used by a frontend application to preset those attribut
 * /api/v1/management-domain -> Get available management-domains
 * /api/v1/service-template -> Get available service-templates
 
+### Operations
+
+* /api/v1/operations/sequencebackup -> Get list of all sequences with values
+* /api/v1/operations/sequencerestore -> Restore list of sequences

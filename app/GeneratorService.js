@@ -34,6 +34,17 @@ class GeneratorService {
         
     }
 
+    getSequenceValues(){
+
+        if (!this.initialized){
+            console.error("Sequence-Generator has not been initialized");
+            return Promise.reject({successful: false,errMsg:'Generator has not been initialized'});
+        }
+
+        return this.seqStore.getvalues(seqConfig.sequenceDefinition);
+
+    }
+
     getSequenceVal(sequenceKey){
         
         if (!this.initialized){
@@ -55,6 +66,17 @@ class GeneratorService {
         });
     }
 
+    setSequenceValues(request){
+
+        if (!this.initialized){
+            console.error("Sequence-Generator has not been initialized");
+            return Promise.reject({successful: false,errMsg:'Generator has not been initialized'});
+        }
+        
+        return this.seqStore.setvalues(request).then(data => {
+            return this.seqStore.getvalues(seqConfig.sequenceDefinition);
+        });
+    }
     
     setSequenceVal(request){
         
