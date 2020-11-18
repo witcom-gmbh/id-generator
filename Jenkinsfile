@@ -49,12 +49,6 @@ pipeline {
 					agent { label 'master' }
 					steps {
 						git credentialsId: 'witcom-jenkins-bot', url: "${gitRepo}"
-						script {
-							def packageJSON = readJSON file: 'package.json'
-							packageJSONVersion = packageJSON.version
-                            buildName = packageJSON.name
-						}
-						echo packageJSONVersion
 					}
 				}
 				
@@ -64,6 +58,7 @@ pipeline {
                         script {
 						    def packageJSON = readJSON file: 'package.json'
 						    packageJSONVersion = packageJSON["version"]
+                            buildName = packageJSON.name
 						}
 						echo packageJSONVersion
 	                    stash name:"openshiftbc",includes:"*.yaml"
