@@ -3,6 +3,7 @@ def gitRepo = 'https://github.com/witcom-gmbh/id-generator'
 def approvalRequired = false;
 def getSource = false;
 def packageJSONVersion = "UNKNOWN";
+def buildName = "id-generator";
 pipeline {
     agent none
   
@@ -75,7 +76,7 @@ pipeline {
                             //delete existing buildconfig
                             openshift.withCluster() {
                                 openshift.withProject() {
-                                    def existingBC = openshift.selector('bc', [build: 'id-generator'])
+                                    def existingBC = openshift.selector('bc', [build: "${buildName}"])
                                     if(existingBC){
                                         existingBC.delete();
                                     }
@@ -84,8 +85,9 @@ pipeline {
                             def bc = readYaml file: './openshift-bc.yaml'
                             bc.spec.output.to.name = "${dockerRepo}:${packageJSONVersion}"
 							bc.spec.source.git.uri = "${gitRepo}"
-                            bc.metadata.name = "id-generator-version"
+                            bc.metadata.name = "${buildName}-version"
                             bc.metadata.labels["version"]= "appVersion"
+							bc.metadata.labels["build"]= "${buildName}"
                             timeout(time: 1, unit: 'MINUTES') {
                             openshift.withCluster() {
                                 openshift.withProject() {
@@ -96,8 +98,9 @@ pipeline {
                             }
                             //create bc for latest-tag 
                             bc.spec.output.to.name = "${dockerRepo}:latest"
-                            bc.metadata.name = "id-generator-latest"
+                            bc.metadata.name = "${buildName}-latest"
                             bc.metadata.labels["version"]="latest"
+							bc.metadata.labels["build"]= "${buildName}"
 							bc.spec.source.git.uri = "${gitRepo}"
                             timeout(time: 1, unit: 'MINUTES') {
                             openshift.withCluster() {
@@ -117,7 +120,7 @@ pipeline {
 		                    timeout(time: 20, unit: 'MINUTES') {
                             openshift.withCluster() {
                                 openshift.withProject() {
-                                def bc = openshift.selector('bc', [build: 'id-generator',version:'appVersion'])
+                                def bc = openshift.selector('bc', [build: "${buildName}",version:'appVersion'])
                                 //def buildSelector = bc.startBuild("--from-file=target/app.jar")
 								def buildSelector = bc.startBuild();
                                 echo "Found ${bc.count()} buildconfigs - expecting 1"
@@ -142,7 +145,7 @@ pipeline {
                         timeout(time: 20, unit: 'MINUTES') {
                             openshift.withCluster() {
                                 openshift.withProject() {
-                                def bc = openshift.selector('bc', [build: 'id-generator',version:'latest'])
+                                def bc = openshift.selector('bc', [build: "${buildName}",version:'latest'])
                                 def buildSelector = bc.startBuild()
                                 echo "Found ${bc.count()} buildconfigs - expecting 1"
                                 def blds = bc.related('builds')
