@@ -74,6 +74,10 @@
     {
         "name" : "ABC Company",
         "id": "ABC"
+    },
+        {
+        "name" : "WiTCOM",
+        "id": "WIT"
     }
     ],
     "serviceType": [
@@ -119,6 +123,14 @@
         "type": "IS-SERVICE",
         "prefixTemplate": "##OWNER##-7Z##SEQ##"
     },
+    {
+        "name": "TEST-Service",
+        "id": "TEST",
+        "sequenceKey": "IS",
+        "type": "IS-SERVICE",
+        "prefixTemplate": "##OWNER##-99Z##SEQ##"
+    },
+
     {
         "name": "Endkunden-Service",
         "id": "SERVICE",

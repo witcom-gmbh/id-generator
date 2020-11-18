@@ -1,4 +1,5 @@
-var seqConfig = require('../../config/generatorconfig');
+//var seqConfig = require('../../config/generatorconfig');
+var idGeneratorConfig = require('../../config/generatorconfig');
 var keycloak   = require('../../config/kc-config');
 
 
@@ -247,27 +248,34 @@ var keycloak   = require('../../config/kc-config');
 
 module.exports = (app) => {
 
+    
+
     app.get('/api/v1/is-service-type', keycloak.protect(),(req,res,next) => {
         //get all service-types starting with IS-
+        let seqConfig=idGeneratorConfig.getConfig();
         let isSvcTypes = seqConfig.serviceType.filter(st => st.type.substring(0,3)==='IS-');
         res.json(isSvcTypes);
     });
 
     app.get('/api/v1/cf-service-type', keycloak.protect(),(req,res,next) => {
         //get all service-types starting with CF-
+        let seqConfig=idGeneratorConfig.getConfig();
         let cfSvcTypes = seqConfig.serviceType.filter(st => st.type.substring(0,3)==='CF-');
         res.json(cfSvcTypes);
     });
 
     app.get('/api/v1/service-owner', keycloak.protect(),(req,res,next) => {
+        let seqConfig=idGeneratorConfig.getConfig();
         res.json(seqConfig.serviceOwner);
     });
 
     app.get('/api/v1/management-domain', keycloak.protect(),(req,res,next) => {
+        let seqConfig=idGeneratorConfig.getConfig();
         res.json(seqConfig.managementDomain);
     });
 
     app.get('/api/v1/service-template', keycloak.protect(),(req,res,next) => {
+        let seqConfig=idGeneratorConfig.getConfig();
         res.json(seqConfig.serviceTemplate);
     });
 

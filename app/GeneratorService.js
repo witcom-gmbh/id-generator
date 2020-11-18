@@ -1,7 +1,8 @@
 //"use strict";
 var SequentialGenerator = require('./SequentialGenerator');
 var redisClient = require('./redis');
-var seqConfig = require('../config/generatorconfig');
+//var seqConfig = require('../config/generatorconfig');
+var idGeneratorConfig = require('../config/generatorconfig');
 var SequentialStore = require('./SequentialStore');
 
 
@@ -19,8 +20,10 @@ class GeneratorService {
         this.myGenerator = new SequentialGenerator();
         this.myGenerator.useLogger(console);
         this.myGenerator.useStore(idStore);
+
+        this.seqConfig = idGeneratorConfig.getConfig();
         
-        this.myGenerator.configure(seqConfig);
+        this.myGenerator.configure(this.seqConfig);
         
         this.myGenerator.init((result) => {
             if(!result){
@@ -34,6 +37,21 @@ class GeneratorService {
         
     }
 
+    configReload(){
+
+        try{
+            idGeneratorConfig.loadConfig();
+            this.seqConfig = idGeneratorConfig.getConfig();
+            //this.seqConfig = idGeneratorConfig.getConfig();
+            this.myGenerator.configure(this.seqConfig);
+            return Promise.resolve({successful: true});
+        }catch(e){
+            console.error(e);
+            return Promise.reject({successful: false,errMsg:'Unable to reload the config'});
+        }
+
+    }
+
     getSequenceValues(){
 
         if (!this.initialized){
@@ -41,7 +59,7 @@ class GeneratorService {
             return Promise.reject({successful: false,errMsg:'Generator has not been initialized'});
         }
 
-        return this.seqStore.getvalues(seqConfig.sequenceDefinition);
+        return this.seqStore.getvalues(this.seqConfig.sequenceDefinition);
 
     }
 
@@ -74,7 +92,7 @@ class GeneratorService {
         }
         
         return this.seqStore.setvalues(request).then(data => {
-            return this.seqStore.getvalues(seqConfig.sequenceDefinition);
+            return this.seqStore.getvalues(this.seqConfig.sequenceDefinition);
         });
     }
     

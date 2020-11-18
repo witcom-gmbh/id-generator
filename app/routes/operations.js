@@ -1,4 +1,5 @@
-var seqConfig = require('../../config/generatorconfig');
+//var seqConfig = require('../../config/generatorconfig');
+//var idGeneratorConfig = require('../config/generatorconfig');
 var keycloak   = require('../../config/kc-config');
 const generator = require('../GeneratorService');
 
@@ -98,10 +99,43 @@ const generator = require('../GeneratorService');
  *         description: Sequence-Id could not be updated
  */
 
+ /**
+ * @swagger
+ * /api/v1/operations/reload:
+ *   post:
+ *     tags:
+ *       - Operations
+ *     description: Reload generator-config
+ *     operationId: reloadConfig
+ *     security:
+ *       - bearerAuth: []
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       '200':
+ *         description: config has been reloaded
+ *       '500':
+ *         description: config could not be reloaded
+ */
+
 
 module.exports = (app) => {
 
     let resourceName = 'sequence';
+
+    app.post('/api/v1/operations/reload', (req,res,next) => {
+        generator.configReload().then(function(val) {
+            res.status(200).json("OK");
+        })
+        .catch((err)=>{
+            console.log(err);
+            res.
+            status(500).json(err);
+        });
+
+    });
 
     app.get('/api/v1/operations/sequencebackup', keycloak.enforcer([resourceName+':view'], {
     resource_server_id: process.env.KEYCLOAK_RESOURCE_ID
