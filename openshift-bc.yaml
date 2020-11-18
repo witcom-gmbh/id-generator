@@ -1,0 +1,31 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    build: id-generator
+  name: id-generator
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    pushSecret:
+      name: nexus-dev
+    to:
+      kind: DockerImage
+      name: 'somename:version'
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      uri: 'https://github.com/witcom-gmbh/id-generator.git'
+    type: Git
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'nodejs-10:latest'
+        namespace: openshift
+    type: Source
+  successfulBuildsHistoryLimit: 5
+

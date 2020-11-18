@@ -26,7 +26,10 @@ SequenceRegistry.prototype.putAll = function(configs){
 SequenceRegistry.prototype.put = function(config){
     var key = config.key;
     if(this.registry[key]){
-        throw new Error('Duplicated sequence object for the key of ' + key);
+        //Reloading config is allowed
+        //The only configurable VALUE is the key, so no big deal.
+        return;
+        //throw new Error('Duplicated sequence object for the key of ' + key);
     }
     else{
         this.registry[key] = this.builder.build({
