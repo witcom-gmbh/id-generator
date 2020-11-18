@@ -93,3 +93,4 @@ Service-Templates can be used by a frontend application to preset those attribut
 
 * /api/v1/operations/sequencebackup -> Get list of all sequences with values
 * /api/v1/operations/sequencerestore -> Restore list of sequences
+* /api/v1/operations/reload -> Reload configuration from configfile
