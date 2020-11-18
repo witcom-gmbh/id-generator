@@ -1,4 +1,4 @@
-var seqConfig = require('../config/generatorconfig');
+//var seqConfig = require('../config/generatorconfig');
 
 var settings = {
     host: process.env.REDIS_HOST,

@@ -1,5 +1,7 @@
-var seqConfig = require('../../config/generatorconfig');
+//var seqConfig = require('../../config/generatorconfig');
+var idGeneratorConfig = require('../../config/generatorconfig');
 var keycloak   = require('../../config/kc-config');
+
 const generator = require('../GeneratorService');
 
 /**
@@ -145,7 +147,7 @@ module.exports = (app) => {
 
 
     app.get('/api/v1/sequences', keycloak.protect(),(req,res,next) => {
-        res.json(seqConfig.sequenceDefinition);
+        res.json(idGeneratorConfig.getConfig().sequenceDefinition);
     });
 
     let resourceName = 'sequence';
