@@ -3,7 +3,7 @@ def gitRepo = 'https://github.com/witcom-gmbh/id-generator'
 def approvalRequired = false;
 def getSource = false;
 def packageJSONVersion = "UNKNOWN";
-def buildName = "id-generator";
+def buildName = "UNKNOWN";
 pipeline {
     agent none
   
@@ -52,6 +52,7 @@ pipeline {
 						script {
 							def packageJSON = readJSON file: 'package.json'
 							packageJSONVersion = packageJSON.version
+                            buildName = packageJSON.name
 						}
 						echo packageJSONVersion
 					}
