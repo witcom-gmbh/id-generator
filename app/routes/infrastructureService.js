@@ -1,6 +1,6 @@
 const generator = require('../GeneratorService');
 var keycloak   = require('../../config/kc-config');
-var generatorConfig = require('../../config/generatorconfig');
+//var generatorConfig = require('../../config/generatorconfig');
 
 /**
  * @swagger

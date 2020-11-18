@@ -81,6 +81,7 @@ require('./app/routes/infrastructureService')(app);
 require('./app/routes/customerService')(app);
 require('./app/routes/helper')(app);
 require('./app/routes/sequence')(app);
+require('./app/routes/operations')(app);
 
 app.use('/api', router);
 app.listen(port);
