@@ -1,6 +1,6 @@
 const generator = require('../GeneratorService');
 var keycloak   = require('../../config/kc-config');
-
+const logger = require('../../config/applogger');
 /**
  * @swagger
  * definitions:
@@ -55,18 +55,19 @@ module.exports = (app) => {
 
     (req,res,next) => {
 
-
         if (!req.body){
+            logger.error("Request body is empty");
            res.
            status(400).
-           json({errMsg:"Request body is empty"});
+           json({message:"Request body is empty"});
            return;
         }
 
         let obj = req.body;
 
         if (!obj.serviceType){
-            res.status(400).json({errMsg:"Request has no serviceType"});
+            logger.error("Request has no serviceType");
+            res.status(400).json({message:"Request has no serviceType"});
             return;
         }
 
@@ -79,7 +80,7 @@ module.exports = (app) => {
             res.json(values);
         })
         .catch((err)=>{
-            console.log(err);
+            logger.error(err);
             res.
             status(400).
             json(err);

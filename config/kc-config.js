@@ -1,6 +1,6 @@
 require('dotenv').config(); // this loads the defined variables from .env
 var Keycloak = require('keycloak-connect');
-
+const logger = require('./applogger');
 let kcConfig = {
   "realm": process.env.KEYCLOAK_REALM,
   "bearer-only": true,
@@ -14,7 +14,7 @@ let kcConfig = {
   "use-resource-role-mappings": true,
   "confidential-port": 0
 }
-console.log('Configured Keycloak with Host ' + kcConfig['auth-server-url'] + ' and realm ' + kcConfig['realm']);
+logger.info('Configured Keycloak with Host ' + kcConfig['auth-server-url'] + ' and realm ' + kcConfig['realm']);
 let keycloak = new Keycloak({},kcConfig);
 
 module.exports = keycloak;

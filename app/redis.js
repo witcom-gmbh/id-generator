@@ -1,4 +1,4 @@
-//var seqConfig = require('../config/generatorconfig');
+const logger = require('../config/applogger');
 
 var settings = {
     host: process.env.REDIS_HOST,
@@ -7,10 +7,8 @@ var settings = {
 };
 
 
-var logger = console;
-//var redis = require("redis");
 const asyncRedis = require("async-redis");
-var redisClient = asyncRedis.createClient(parseInt(settings.port), settings.host, {} );
+var redisClient = asyncRedis.createClient(parseInt(settings.port), settings.host, {connect_timeout: 1000} );
 redisClient.auth(settings.password);
 
 var infolog = function (msg) {
@@ -25,7 +23,12 @@ var warnlog = function (msg) {
 };
 var errorlog = function (msg) {
     return function() {
-        logger.error(msg, arguments);
+        //console.log(arguments[0]);
+        const redisLogger = logger.child(arguments[0]);
+        //const redisLogger = logger.child({ a: 'property' })
+        redisLogger.error(msg);
+        process.exit();
+        
     }
 };
 

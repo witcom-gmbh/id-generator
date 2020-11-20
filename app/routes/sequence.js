@@ -1,7 +1,7 @@
 //var seqConfig = require('../../config/generatorconfig');
 var idGeneratorConfig = require('../../config/generatorconfig');
 var keycloak   = require('../../config/kc-config');
-
+const logger = require('../../config/applogger');
 const generator = require('../GeneratorService');
 
 /**
@@ -159,13 +159,13 @@ module.exports = (app) => {
         if (!req.params){
            res.
            status(400).
-           json({errMsg:"Request params are empty"});
+           json({message:"Request params are empty"});
            return;
         }
         if (!req.params.key){
            res.
            status(400).
-           json({errMsg:"Request has no sequence key"});
+           json({message:"Request has no sequence key"});
            return;
         }
 
@@ -175,7 +175,7 @@ module.exports = (app) => {
             res.json({"val":val});
         })
         .catch((err)=>{
-            console.log(err);
+            logger.error(err);
             res.
             status(400).
             json(err);
@@ -190,27 +190,27 @@ module.exports = (app) => {
         if (!req.params){
            res.
            status(400).
-           json({errMsg:"Request params are empty"});
+           json({message:"Request params are empty"});
            return;
         }
         if (!req.params.key){
            res.
            status(400).
-           json({errMsg:"Request has no sequence key"});
+           json({message:"Request has no sequence key"});
            return;
         }
 
         if (!req.body){
            res.
            status(400).
-           json({errMsg:"Request body is empty"});
+           json({message:"Request body is empty"});
            return;
         }
 
         let obj = req.body;
 
         if (!obj.newVal){
-            res.status(400).json({errMsg:"Request has no newVal"});
+            res.status(400).json({message:"Request has no newVal"});
             return;
         }
         obj.sequenceKey = req.params.key;
@@ -219,7 +219,7 @@ module.exports = (app) => {
             res.json({"successful":true});
         })
         .catch((err)=>{
-            console.log(err);
+            logger.error(err);
             res.
             status(400).
             json(err);
