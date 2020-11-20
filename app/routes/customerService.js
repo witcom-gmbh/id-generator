@@ -59,7 +59,7 @@ module.exports = (app) => {
             logger.error("Request body is empty");
            res.
            status(400).
-           json({errMsg:"Request body is empty"});
+           json({message:"Request body is empty"});
            return;
         }
 
@@ -67,7 +67,7 @@ module.exports = (app) => {
 
         if (!obj.serviceType){
             logger.error("Request has no serviceType");
-            res.status(400).json({errMsg:"Request has no serviceType"});
+            res.status(400).json({message:"Request has no serviceType"});
             return;
         }
 

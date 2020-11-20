@@ -60,7 +60,7 @@ sg.prototype.setSequenceValue = function(key,newVal){
         return so.setval(newVal);
     }
     else{
-        return Promise.reject({'successful':false,"errmsg":'Process ' + process.pid + ': Sequence [' + key + '] is not registered'});
+        return Promise.reject({'successful':false,"message":'Process ' + process.pid + ': Sequence [' + key + '] is not registered'});
         //throw new Error('Process ' + process.pid + ': Sequence [' + key + '] is not registered');
     }
 };

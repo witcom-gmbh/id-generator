@@ -81,23 +81,23 @@ module.exports = (app) => {
         if (!req.body){
            res.
            status(400).
-           json({errMsg:"Request body is empty"});
+           json({message:"Request body is empty"});
            return;
         }
 
         let obj = req.body;
 
         if (!obj.serviceOwner){
-            res.status(400).json({errMsg:"Request has no serviceOwner"});
+            res.status(400).json({message:"Request has no serviceOwner"});
             return;
         }
         if (!obj.serviceType){
-            res.status(400).json({errMsg:"Request has no serviceType"});
+            res.status(400).json({message:"Request has no serviceType"});
             return;
         }
 
         if (!obj.md){
-            res.status(400).json({errMsg:"Request has no managementDomain"});
+            res.status(400).json({message:"Request has no managementDomain"});
             return;
         }
         if(!obj.count){

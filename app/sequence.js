@@ -52,7 +52,7 @@ so.prototype.next = function(requestSize){
             let nextVal = res.value;
             if (typeof nextVal == 'number'){
                 if (nextVal>state.maxValue){
-                    return Promise.reject({successful: false,errMsg:"Next-Val [" + nextVal + "] from Sequence [" + state.key + "] is owerflowing - max number allowed is ["+state.maxValue+"]"});
+                    return Promise.reject({successful: false,message:"Next-Val [" + nextVal + "] from Sequence [" + state.key + "] is owerflowing - max number allowed is ["+state.maxValue+"]"});
                 }
                 //Create an list of sequence numbers. New "End-number" is known, so is the number of requested numbers.
                 //So it is easy to calculate the sequences that were generated
@@ -66,7 +66,7 @@ so.prototype.next = function(requestSize){
                 //var nextIdPadded = prefix + nextId.padStart(state.maxValue.toString().length, state.padding);
                 return {successful: true,seqList:seqList};
             }
-            return Promise.reject({successful: false,errMsg:'Next-Val [' + nextVal + '] from Sequence [' + state.key + '] is not a number'});
+            return Promise.reject({successful: false,message:'Next-Val [' + nextVal + '] from Sequence [' + state.key + '] is not a number'});
         }
         else 
         {

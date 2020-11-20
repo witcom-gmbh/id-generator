@@ -48,7 +48,7 @@ class GeneratorService {
             return Promise.resolve({successful: true});
         }catch(e){
             logger.error(e);
-            return Promise.reject({successful: false,errMsg:'Unable to reload the config'});
+            return Promise.reject({successful: false,message:'Unable to reload the config'});
         }
 
     }
@@ -57,7 +57,7 @@ class GeneratorService {
 
         if (!this.initialized){
             logger.error("Sequence-Generator has not been initialized");
-            return Promise.reject({successful: false,errMsg:'Generator has not been initialized'});
+            return Promise.reject({successful: false,message:'Generator has not been initialized'});
         }
 
         return this.seqStore.getvalues(this.seqConfig.sequenceDefinition);
@@ -68,20 +68,20 @@ class GeneratorService {
         
         if (!this.initialized){
             logger.error("Sequence-Generator has not been initialized");
-            return Promise.reject({successful: false,errMsg:'Generator has not been initialized'});
+            return Promise.reject({successful: false,message:'Generator has not been initialized'});
         }
         
         //console.info(this.myGenerator.registry);
         let state = {key:sequenceKey};
         var so = this.myGenerator.registry[sequenceKey];
         if (!so){
-            return Promise.reject({'successful':false,"errmsg":'Process ' + process.pid + ': Sequence [' + sequenceKey + '] is not registered'});
+            return Promise.reject({'successful':false,"message":'Process ' + process.pid + ': Sequence [' + sequenceKey + '] is not registered'});
         }
         return this.seqStore.getval(state).then(function(res) {
             return res;
         })
         .catch((error) => {
-            return Promise.reject({'successful':false,"errmsg":"Failed to get next-seq value"});
+            return Promise.reject({'successful':false,"message":"Failed to get next-seq value"});
         });
     }
 
@@ -89,7 +89,7 @@ class GeneratorService {
 
         if (!this.initialized){
             logger.error("Sequence-Generator has not been initialized");
-            return Promise.reject({successful: false,errMsg:'Generator has not been initialized'});
+            return Promise.reject({successful: false,message:'Generator has not been initialized'});
         }
         
         return this.seqStore.setvalues(request).then(data => {
@@ -101,14 +101,14 @@ class GeneratorService {
         
         if (!this.initialized){
             logger.error("Sequence-Generator has not been initialized");
-            return Promise.reject({successful: false,errMsg:'Generator has not been initialized'});
+            return Promise.reject({successful: false,message:'Generator has not been initialized'});
         }
         
         if (!Number.isInteger(request.newVal)){
-            return Promise.reject({successful: false,errMsg:'Request newVal ' + request.newVal + ' is not a number'});
+            return Promise.reject({successful: false,message:'Request newVal ' + request.newVal + ' is not a number'});
         }
         if (request.newVal<=0){
-            return Promise.reject({successful: false,errMsg:'Request newVal ' + request.newVal + ' is not a positive number'});
+            return Promise.reject({successful: false,message:'Request newVal ' + request.newVal + ' is not a positive number'});
         }
         
         return this.getSequenceVal(request.sequenceKey).
@@ -116,14 +116,14 @@ class GeneratorService {
             let oldvalue = res.value;
             if (request.newVal < oldvalue){
                 logger.error("New value is smaller than current sequence-value");
-                return Promise.reject({'successful':false,"errmsg":"New value is smaller than current sequence-value"});
+                return Promise.reject({'successful':false,"message":"New value is smaller than current sequence-value"});
             }
             
             return this.myGenerator.setSequenceValue(request.sequenceKey,request.newVal).then(function(res) {
                 return {'successful':true,"val":res.val};
             })
             .catch((error) => {
-                return Promise.reject({'successful':false,"errmsg":error.errmsg});
+                return Promise.reject({'successful':false,"message":error.message});
             });
         });
         
@@ -133,7 +133,7 @@ class GeneratorService {
     generate(request){
         if (!this.initialized){
             logger.error("Sequence-Generator has not been initialized");
-            return Promise.reject({successful: false,errMsg:'Generator has not been initialized'});
+            return Promise.reject({successful: false,message:'Generator has not been initialized'});
             
         }
         
@@ -141,17 +141,17 @@ class GeneratorService {
         let serviceType = this.myGenerator.generatorConfig.serviceType.find(st => st.id === request.serviceType);
         if (!serviceType){
             //throw new Error('Process ' + process.pid + ': No configuration found for service-type [' + key + ']');
-            return Promise.reject({successful: false,errMsg:'Requested ServiceType ' + request.serviceType + ' is unknown'});
+            return Promise.reject({successful: false,message:'Requested ServiceType ' + request.serviceType + ' is unknown'});
         }
         if (!serviceType.sequenceKey){
-            return Promise.reject({successful: false,errMsg:'Requested ServiceType ' + request.serviceType + ' is not mapped to a sequence-key'});
+            return Promise.reject({successful: false,message:'Requested ServiceType ' + request.serviceType + ' is not mapped to a sequence-key'});
         }
         
         if (!Number.isInteger(request.count)){
-            return Promise.reject({successful: false,errMsg:'Requestcount ' + request.count + ' is not a number'});
+            return Promise.reject({successful: false,message:'Requestcount ' + request.count + ' is not a number'});
         }
         if (request.count<=0){
-            return Promise.reject({successful: false,errMsg:'Requestcount ' + request.count + ' is not a positive number'});
+            return Promise.reject({successful: false,message:'Requestcount ' + request.count + ' is not a positive number'});
         }
         
         //Build Prefix from Template
@@ -160,14 +160,14 @@ class GeneratorService {
         if (request.serviceOwner){
             //check if definition exists
             if (!this.myGenerator.generatorConfig.serviceOwner.find(so => so.id === request.serviceOwner)){
-                return Promise.reject({successful: false,errMsg:'Requested ServiceOwner ' + request.serviceOwner + ' is unknown'});
+                return Promise.reject({successful: false,message:'Requested ServiceOwner ' + request.serviceOwner + ' is unknown'});
             }
             prefix=prefix.replace('##OWNER##',request.serviceOwner);
         }
         if (request.md){
             //check if definition exists
             if (!this.myGenerator.generatorConfig.managementDomain.find(so => so.id === request.md)){
-                return Promise.reject({successful: false,errMsg:'Requested Management-Domain ' + request.md + ' is unknown'});
+                return Promise.reject({successful: false,message:'Requested Management-Domain ' + request.md + ' is unknown'});
             }
             prefix=prefix.replace('##MD##',request.md);
         }

@@ -163,7 +163,7 @@ module.exports = (app) => {
         if (!req.body){
            res.
            status(400).
-           json({errMsg:"Request body is empty"});
+           json({message:"Request body is empty"});
            return;
         }
 
