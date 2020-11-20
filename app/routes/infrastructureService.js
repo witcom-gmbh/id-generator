@@ -1,6 +1,6 @@
 const generator = require('../GeneratorService');
 var keycloak   = require('../../config/kc-config');
-//var generatorConfig = require('../../config/generatorconfig');
+const logger = require('../../config/applogger');
 
 /**
  * @swagger
@@ -108,7 +108,7 @@ module.exports = (app) => {
             res.json(values);
         })
         .catch((err)=>{
-            console.log(err);
+            loggger.error(err);
             res.
             status(400).
             json(err);

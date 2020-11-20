@@ -1,8 +1,6 @@
-//var seqConfig = require('../../config/generatorconfig');
-//var idGeneratorConfig = require('../config/generatorconfig');
 var keycloak   = require('../../config/kc-config');
 const generator = require('../GeneratorService');
-
+const logger = require('../../config/applogger');
 
 /**
  * @swagger
@@ -130,7 +128,7 @@ module.exports = (app) => {
             res.status(200).json("OK");
         })
         .catch((err)=>{
-            console.log(err);
+            logger.error(err);
             res.
             status(500).json(err);
         });
@@ -150,7 +148,7 @@ module.exports = (app) => {
             res.json(mapped);
         })
         .catch((err)=>{
-            console.log(err);
+            logger.error(err);
             res.
             status(400).
             json(err);
@@ -179,7 +177,7 @@ module.exports = (app) => {
             res.json(mapped);
         })
         .catch((err)=>{
-            console.log(err);
+            logger.error(err);
             res.
             status(400).
             json(err);

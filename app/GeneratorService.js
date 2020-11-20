@@ -4,7 +4,8 @@ var redisClient = require('./redis');
 //var seqConfig = require('../config/generatorconfig');
 var idGeneratorConfig = require('../config/generatorconfig');
 var SequentialStore = require('./SequentialStore');
-
+//const logger = require('pino')()
+const logger = require('../config/applogger');
 
 class GeneratorService {
     
@@ -13,12 +14,12 @@ class GeneratorService {
         var idStore = new SequentialStore({
             keyPrefix: 'sequential:id:',
             redis: redisClient,
-            logger: console
+            logger: logger
         });
         this.initialized=false;
         this.seqStore = idStore;
         this.myGenerator = new SequentialGenerator();
-        this.myGenerator.useLogger(console);
+        this.myGenerator.useLogger(logger);
         this.myGenerator.useStore(idStore);
 
         this.seqConfig = idGeneratorConfig.getConfig();
@@ -30,7 +31,7 @@ class GeneratorService {
                 throw new Error('generator is not ready');
             }
             //alle sequenzen initialisieren
-            console.info("Sequence-Generator has been initialized");
+            logger.info("Sequence-Generator has been initialized");
             this.initialized=true;
             
         });
@@ -46,7 +47,7 @@ class GeneratorService {
             this.myGenerator.configure(this.seqConfig);
             return Promise.resolve({successful: true});
         }catch(e){
-            console.error(e);
+            logger.error(e);
             return Promise.reject({successful: false,errMsg:'Unable to reload the config'});
         }
 
@@ -55,7 +56,7 @@ class GeneratorService {
     getSequenceValues(){
 
         if (!this.initialized){
-            console.error("Sequence-Generator has not been initialized");
+            logger.error("Sequence-Generator has not been initialized");
             return Promise.reject({successful: false,errMsg:'Generator has not been initialized'});
         }
 
@@ -66,7 +67,7 @@ class GeneratorService {
     getSequenceVal(sequenceKey){
         
         if (!this.initialized){
-            console.error("Sequence-Generator has not been initialized");
+            logger.error("Sequence-Generator has not been initialized");
             return Promise.reject({successful: false,errMsg:'Generator has not been initialized'});
         }
         
@@ -87,7 +88,7 @@ class GeneratorService {
     setSequenceValues(request){
 
         if (!this.initialized){
-            console.error("Sequence-Generator has not been initialized");
+            logger.error("Sequence-Generator has not been initialized");
             return Promise.reject({successful: false,errMsg:'Generator has not been initialized'});
         }
         
@@ -99,7 +100,7 @@ class GeneratorService {
     setSequenceVal(request){
         
         if (!this.initialized){
-            console.error("Sequence-Generator has not been initialized");
+            logger.error("Sequence-Generator has not been initialized");
             return Promise.reject({successful: false,errMsg:'Generator has not been initialized'});
         }
         
@@ -114,7 +115,7 @@ class GeneratorService {
         then((res) => {
             let oldvalue = res.value;
             if (request.newVal < oldvalue){
-                console.error("New value is smaller than current sequence-value");
+                logger.error("New value is smaller than current sequence-value");
                 return Promise.reject({'successful':false,"errmsg":"New value is smaller than current sequence-value"});
             }
             
@@ -131,7 +132,7 @@ class GeneratorService {
     
     generate(request){
         if (!this.initialized){
-            console.error("Sequence-Generator has not been initialized");
+            logger.error("Sequence-Generator has not been initialized");
             return Promise.reject({successful: false,errMsg:'Generator has not been initialized'});
             
         }

@@ -1,7 +1,7 @@
 //var seqConfig = require('../../config/generatorconfig');
 var idGeneratorConfig = require('../../config/generatorconfig');
 var keycloak   = require('../../config/kc-config');
-
+const logger = require('../../config/applogger');
 
 /**
  * @swagger

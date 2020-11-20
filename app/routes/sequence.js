@@ -1,7 +1,7 @@
 //var seqConfig = require('../../config/generatorconfig');
 var idGeneratorConfig = require('../../config/generatorconfig');
 var keycloak   = require('../../config/kc-config');
-
+const logger = require('../../config/applogger');
 const generator = require('../GeneratorService');
 
 /**
@@ -175,7 +175,7 @@ module.exports = (app) => {
             res.json({"val":val});
         })
         .catch((err)=>{
-            console.log(err);
+            logger.error(err);
             res.
             status(400).
             json(err);
@@ -219,7 +219,7 @@ module.exports = (app) => {
             res.json({"successful":true});
         })
         .catch((err)=>{
-            console.log(err);
+            logger.error(err);
             res.
             status(400).
             json(err);
