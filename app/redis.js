@@ -8,7 +8,8 @@ var settings = {
 
 
 const asyncRedis = require("async-redis");
-var redisClient = asyncRedis.createClient(parseInt(settings.port), settings.host, {connect_timeout: 1000} );
+settings.port=1234;
+var redisClient = asyncRedis.createClient(parseInt(settings.port), settings.host, {connect_timeout: 30000} );
 redisClient.auth(settings.password);
 
 var infolog = function (msg) {
