@@ -1,6 +1,6 @@
 require('dotenv').config(); // this loads the defined variables from .env
-//var Keycloak = require('keycloak-connect');
-const { createTerminus } = require('@godaddy/terminus');
+const health = require('@cloudnative/health-connect');
+const healthcheck = require ('./app/generatorhealthcheck');
 var keycloak   = require('./config/kc-config');
 var cors = require('cors');
 const http = require('http');
@@ -47,7 +47,7 @@ if (devMode){
 const swaggerDefinition = {
   info: {
     title: 'Service-ID Generator',
-    version: '1.1.0',
+    version: '1.2.3',
     description: 'Endpoints for Service-ID Generation',
   },
   host: "",
@@ -88,43 +88,13 @@ require('./app/routes/sequence')(app);
 require('./app/routes/operations')(app);
 
 app.use('/api', router);
-//app.listen(port);
-const server = http.createServer(app);
 
-function onSignal () {
-  console.log('server is starting cleanup');
-  return Promise.all([
-    // your clean logic, like closing database connections
-  ]);
-}
+//health endpoints
+app.use('/-/live', health.LivenessEndpoint(healthcheck.getHealthCheck()))
+app.use('/-/ready', health.ReadinessEndpoint(healthcheck.getHealthCheck()))
 
-function onShutdown () {
-  console.log('cleanup finished, server is shutting down');
-}
+app.listen(port);
 
-function healthCheck () {
-  return Promise.resolve(
-    // optionally include a resolve value to be included as
-    // info in the health check response
-  )
-}
-
-const terminusOptions = {
-  // health check options
-  healthChecks: {
-    '/-/health': healthCheck,    // a function returning a promise indicating service health,
-    verbatim: true // [optional = false] use object returned from /healthcheck verbatim in response
-  },
-
-  // cleanup options
-  timeout: 1000,                   // [optional = 1000] number of milliseconds before forceful exiting
-  onSignal,                        // [optional] cleanup function, returning a promise (used to be onSigterm)
-  onShutdown,                      // [optional] called right before exiting
-};
-
-createTerminus(server, terminusOptions);
-server.listen(port);
-
-logger.info('WiTCOM Sequenz-Generator running on port'+ port)
+logger.info('WiTCOM Sequenz-Generator running on port '+ port)
 
 
