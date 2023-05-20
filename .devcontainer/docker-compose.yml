@@ -34,6 +34,6 @@ services:
     image: redis:6.2-alpine
     hostname: redis
     container_name: idgen_redis
-    command: redis-server --save 20 1 --loglevel warning
+    command: redis-server --save 20 1 --loglevel warning --requirepass some-password
     ports:
       - "6379:6379"
