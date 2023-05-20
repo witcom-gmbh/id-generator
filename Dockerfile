@@ -14,6 +14,6 @@ RUN chown -R 1001:0 /app \
 
 USER app
 
-EXPOSE 8080
+EXPOSE 3000
 
 CMD node ./server.js
