@@ -108,7 +108,7 @@ module.exports = (app) => {
             res.json(values);
         })
         .catch((err)=>{
-            loggger.error(err);
+            logger.error(err);
             res.
             status(400).
             json(err);
