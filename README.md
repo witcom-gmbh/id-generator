@@ -1,3 +1,7 @@
+# THIS PROJECT IS NOT MAINTAINED ANY MORE
+
+ID-Generatr has undergone a complete rework (https://github.com/witcom-gmbh/witcom-id-generator)
+
 # id-generator
 
 ID-Generator-API for Services (Customer-facing and internal). Service-IDs consist of a sequence-number that is padded by 0's to have an equal width
